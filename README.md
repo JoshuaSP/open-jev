@@ -6,7 +6,7 @@ The goal is to explore how close an open diffusion model can get to TypeSafe AI'
 
 ## Results at a glance
 
-Measured September 16, 2026 on one H100 80GB, BF16, using `google/diffusiongemma-26B-A4B-it`. Results below are from **one denoising step**.
+Measured September 16, 2026 on one H100 80GB, BF16, using `google/diffusiongemma-26B-A4B-it`. Every results below use **one denoising step**; public-eval comparisons label each step budget.
 
 ### Every's TypeSafe lab
 
@@ -23,21 +23,29 @@ With six boolean fields on each canvas, batch 16 achieved **30.41 documents/s**,
 
 ### Jev's public examples
 
-We replayed the original questions on the saved Jev execution paths, then compared both models to the same model-derived reference answers.
+We replayed all 408 available questions from Jev's saved execution paths on the 20 public cases. The grouped runner puts questions sharing a document into one JSON canvas, splitting only when the 256-token output limit requires it, and batches different canvases together.
 
-| Workflow | Scored questions | Ours | Saved Jev |
+| Workflow | Scored | Original 1-step | Grouped 1-step | Grouped 2-step | Saved Jev |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Agent traces | 52 | 78.8% | 78.8% | 80.8% | 78.8% |
+| Customer service | 92 | 91.3% | 82.6% | 84.8% | 89.1% |
+| Invoice processing | 167 | 92.8% | 92.2% | 94.0% | 97.0% |
+| Security incidents | 26 | 69.2% | 73.1% | 73.1% | 80.8% |
+| **Total** | **337** | **88.4%** | **86.1%** | **87.8%** | **90.8%** |
+
+| Runner | Inference time | Inference GPU cost | Input tokens |
 | --- | ---: | ---: | ---: |
-| Agent traces | 52 | 78.8% | 78.8% |
-| Customer service | 92 | 91.3% | 89.1% |
-| Invoice processing | 167 | 92.8% | 97.0% |
-| Security incidents | 26 | 69.2% | 80.8% |
-| **Total** | **337** | **88.4%** | **90.8%** |
+| Original, one question per sequence | 248.03 s | $0.2721 | 2,214,128 |
+| Grouped JSON, 1 step | 48.61 s | $0.0533 | 300,431 |
+| Grouped JSON, 2 steps | 51.11 s | $0.0561 | 300,431 |
 
-All **408/408** emitted answers satisfied their finite output constraints. Accuracy excludes 54 questions without references and 17 tied references. These are **20 selected public cases**, not the full 711-case corpus. We did not reproduce independent branch selection or final workflow decisions, and did not call the Jev API.
+**Two-step grouped inference is 4.85× faster and about 79% cheaper**, with two fewer correct judgments (296 vs 298 out of 337). One step is slightly faster but loses more accuracy. All runs emit **408/408 valid typed answers**. These are successful in-container request timings, including layout construction and first-request overhead, but excluding model loading and OOM attempts. Including setup/OOMs, the grouped runs cost $0.198 and $0.163 respectively; cold-start variability means those totals are not a controlled step-count comparison.
 
-This runner puts one question in each sequence and repeats its document. Successful inference took **248 seconds / $0.272 GPU cost** across **2.214M input tokens** (about **$0.123/MTok**); including loading and OOM attempts, **339 seconds / $0.372**. Jev's saved whole-workflow records total 8.87 seconds and $0.00846 estimated API cost, but use different question grouping and execution. We have **not matched Jev's speed or cost** on these workflows.
+The 46 nodes become 56 canvases. Forty-one nodes fit in one canvas; five larger nodes split. Outputs are merged into a complete JSON object for each node. Multiple questions share attention, so accuracy can change. This does not implement Jev's independent-question isolation or cross-canvas KV reuse.
 
-[Public-eval results and limitations](PUBLIC_EVALS.md) · [Individual predictions](results/public_evals_20260916T193219Z.json)
+Accuracy excludes 54 questions without references and 17 tied references. References are model-derived. TypeSafe selected these **20 public cases** from its 711-case evaluation; we evaluated all 20, but did not reproduce autonomous branch selection or final workflow decisions. We did not call the Jev API. Jev's saved whole-workflow records total 8.87 seconds and $0.00846 estimated API cost, measured with different execution and grouping; we have not matched those figures.
+
+[Parallel comparison and receipts](PARALLEL_EVALS.md) · [Original benchmark details](PUBLIC_EVALS.md)
 
 All dollar figures are estimates at **$3.9492/H100-hour**, excluding CPU, RAM, storage and lifecycle outside the measured function. They are not invoice totals or hosted API prices.
 
@@ -109,9 +117,9 @@ print(result["answers"])
 
 The prompt brackets the document in `<user_text>` and places instructions afterward in `<instructions>`. These are formatting delimiters, not a security boundary.
 
-`FinalReadoutCanvas` handles aligned independent slots. `FinalTrieCanvas` extends final readout to dependent and unequal-length alternatives. Later trie decisions use logits from the same diffusion pass, not autoregressive likelihoods conditioned on the newly selected prefix. With unequal token lengths, only structure common to every candidate can be fixed during denoising; final output is still constrained to a complete candidate.
+`FieldCanvas` in `parallel_canvas.py` now compiles each field separately, pads shorter candidates with JSON whitespace, and combines their tries into a single JSON canvas. It avoids Cartesian enumeration. `FinalReadoutCanvas` handles aligned independent slots in the historical runners. `FinalTrieCanvas` extends final readout to dependent and unequal-length alternatives. Later trie decisions use logits from the same diffusion pass, not autoregressive likelihoods conditioned on the newly selected prefix. With unequal token lengths, only structure common to every candidate can be fixed during denoising; final output is still constrained to a complete candidate.
 
-The reusable harness enumerates up to 4,096 complete alternatives and requires the output to fit one canvas. It is not an arbitrary JSON Schema engine. Multiple fields share attention, so this does not reproduce Jev's independent-question isolation. Restricted softmax scores used in the Every ranking experiment are **uncalibrated**, not reliable truth probabilities.
+The reusable harness compiles fields independently and requires the output to fit one canvas. The grouped public-eval runner automatically splits oversized nodes and merges their JSON outputs. Historical enumeration helpers remain available with a 4,096-alternative limit. It is not an arbitrary JSON Schema engine. Multiple fields share attention, so this does not reproduce Jev's independent-question isolation. Restricted softmax scores used in the Every ranking experiment are **uncalibrated**, not reliable truth probabilities.
 
 ## Reproduce the experiments
 
@@ -124,7 +132,10 @@ modal run lab_benchmark.py       # 1- and 4-step runs, 32 documents per budget
 modal run batch_benchmark.py     # 1-step, start 64; halve only on OOM
 
 # Jev: downloaded public examples are already included with provenance
-modal run public_eval_benchmark.py
+modal run public_eval_benchmark.py  # historical one-question-per-sequence baseline
+modal run verify_parallel.py       # CPU checks for compositional JSON constraints
+modal run parallel_benchmark.py --steps 1
+modal run parallel_benchmark.py --steps 2
 
 # Local checks: no credentials or GPU needed
 python -m unittest discover -s tests -v
@@ -139,10 +150,10 @@ The original public-eval run had a token-length bookkeeping bug: it counted the 
 | File | Purpose |
 | --- | --- |
 | `inference.py`, `infer.py` | Reusable harness and Modal CLI |
-| `json_canvas.py` | Token constraints, final readout and sampler integration |
+| `json_canvas.py`, `parallel_canvas.py` | Token constraints, compositional fields, final readout and sampler integration |
 | `modal_app.py` | Pinned image/model, HF cache, historical smoke experiments |
 | `lab_benchmark.py`, `batch_benchmark.py` | Every accuracy and throughput runners |
-| `public_eval_benchmark.py` | Public Jev question replay and scoring |
+| `public_eval_benchmark.py`, `parallel_benchmark.py` | Individual and grouped public Jev question replay |
 | `results/` | Selected recorded experiment receipts |
 | `typesafe-public-evals/` | Public examples, source URLs and checksums |
 | `docs/RESEARCH_LOG.md` | Historical experiments, including abandoned approaches |

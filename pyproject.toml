@@ -15,4 +15,4 @@ dependencies = ["modal>=1.0,<2"]
 inference = ["torch==2.14.0", "torchvision==0.29.0", "Pillow", "transformers==5.11.0", "accelerate", "huggingface-hub", "hf-xet"]
 
 [tool.setuptools]
-py-modules = ["inference", "infer", "json_canvas", "constraints", "modal_app", "lab_benchmark", "batch_benchmark", "public_eval_benchmark", "public_eval_token_audit", "public_eval_report"]
+py-modules = ["inference", "infer", "json_canvas", "constraints", "modal_app", "lab_benchmark", "batch_benchmark", "public_eval_benchmark", "public_eval_token_audit", "public_eval_report", "parallel_canvas", "parallel_benchmark"]

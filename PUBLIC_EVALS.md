@@ -1,5 +1,7 @@
 # Public TypeSafe examples: one-step DiffusionGemma vs saved Jev
 
+For the subsequent grouped JSON runs, see [PARALLEL_EVALS.md](PARALLEL_EVALS.md). This report preserves the original one-question-per-sequence baseline.
+
 Run date: 2026-09-16. This is a question-level replay of the nodes Jev ran on 20 selected public examples, not a reproduction of independent workflow branching or their full 711-case evaluation.
 
 ## Accuracy

@@ -16,3 +16,5 @@ results/*
 !results/batch_sweep_20260916T145918Z.json
 !results/public_evals_20260916T193219Z.json
 !results/public_eval_token_audit.json
+!results/parallel_evals_20260916T221434Z.json
+!results/parallel_evals_20260916T221744Z.json
