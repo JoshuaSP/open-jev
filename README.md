@@ -109,6 +109,10 @@ print(result["answers"])
 
 ## How it works
 
+![Fixed JSON structure with changeable answer slots and final allowed-value selection](assets/json-canvas.png)
+
+[Editable SVG](assets/json-canvas.svg)
+
 1. Tokenize complete allowed JSON documents. Verify round trips and the finite candidate language.
 2. Fix token positions shared by every candidate. Initialize other positions with uniform full-vocabulary noise, rather than random valid answers.
 3. Run exactly N denoising steps on the model's 256-token canvas. Variable positions remain unrestricted during denoising and self-conditioning.

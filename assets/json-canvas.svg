@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="900" viewBox="0 0 1440 900" role="img" aria-labelledby="title desc">
+<title id="title">Parallel decisions on a constrained JSON canvas</title>
+<desc id="desc">JSON keys and punctuation stay fixed. The department and refund_requested value slots denoise in parallel. After N steps, final logits select billing, technical or sales for department and false or true for refund_requested.</desc>
+<defs>
+ <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.7" fill="#d9dfdd"/></pattern>
+ <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0 0L6 3L0 6" fill="none" stroke="#829b91" stroke-width="1.4"/></marker>
+</defs>
+<rect width="1440" height="900" fill="#f5f7f3"/>
+<rect width="1440" height="900" fill="url(#grid)" opacity=".48"/>
+<g font-family="Arial, Helvetica, sans-serif">
+ <text x="76" y="65" fill="#477c64" font-size="15" font-weight="700" letter-spacing="3">OPEN JEV / HOW IT WORKS</text>
+ <text x="72" y="132" fill="#172e26" font-size="49" font-weight="700" letter-spacing="-1.5">Fixed JSON. Parallel decisions.</text>
+ <text x="76" y="174" fill="#5b6e65" font-size="23">Keep the structure in place. Let the answer slots change together.</text>
+</g>
+<!-- The literal output canvas -->
+<rect x="72" y="227" width="830" height="330" rx="24" fill="#172c26"/>
+<rect x="99" y="253" width="9" height="9" rx="4.5" fill="#79dfad"/>
+<text x="122" y="265" fill="#a8c2b6" font-family="Arial, Helvetica, sans-serif" font-size="14" letter-spacing="2">JSON CANVAS · EXAMPLE FINAL READOUT</text>
+<g font-family="Menlo, Consolas, monospace" font-size="30" fill="#becdc6">
+ <text x="114" y="325">{</text>
+ <text x="148" y="390">&quot;department&quot;:</text>
+ <text x="415" y="390">&quot;</text>
+ <rect x="435" y="354" width="153" height="50" rx="9" fill="#79dfad"/>
+ <text x="448" y="390" fill="#103925" font-weight="700">billing</text>
+ <text x="596" y="390">&quot;,</text>
+ <text x="148" y="467">&quot;refund_requested&quot;:</text>
+ <rect x="512" y="431" width="105" height="50" rx="9" fill="#79dfad"/>
+ <text x="527" y="467" fill="#103925" font-weight="700">true</text>
+ <text x="114" y="520">}</text>
+</g>
+<!-- Final allowed-value sets -->
+<g fill="none" stroke="#829b91" stroke-width="2">
+ <path d="M635 378H929" marker-end="url(#arrow)"/>
+ <path d="M637 455H929" marker-end="url(#arrow)"/>
+</g>
+<g font-family="Arial, Helvetica, sans-serif">
+ <text x="955" y="275" fill="#477c64" font-size="14" font-weight="700" letter-spacing="2">ALLOWED AT FINAL READOUT</text>
+ <text x="955" y="334" fill="#62766b" font-size="16">Department</text>
+ <rect x="951" y="350" width="101" height="43" rx="21.5" fill="#d0f0dd" stroke="#86b99b"/>
+ <text x="1001" y="378" text-anchor="middle" fill="#205b3e" font-size="18" font-weight="700">billing</text>
+ <rect x="1062" y="350" width="124" height="43" rx="21.5" fill="#fff" stroke="#cbd6ce"/>
+ <text x="1124" y="378" text-anchor="middle" fill="#52695c" font-size="18">technical</text>
+ <rect x="1196" y="350" width="85" height="43" rx="21.5" fill="#fff" stroke="#cbd6ce"/>
+ <text x="1238" y="378" text-anchor="middle" fill="#52695c" font-size="18">sales</text>
+ <text x="955" y="428" fill="#62766b" font-size="16">Refund requested</text>
+ <rect x="951" y="443" width="88" height="43" rx="21.5" fill="#fff" stroke="#cbd6ce"/>
+ <text x="995" y="471" text-anchor="middle" fill="#52695c" font-size="18">false</text>
+ <rect x="1049" y="443" width="84" height="43" rx="21.5" fill="#d0f0dd" stroke="#86b99b"/>
+ <text x="1091" y="471" text-anchor="middle" fill="#205b3e" font-size="18" font-weight="700">true</text>
+</g>
+<!-- Legend -->
+<g font-family="Arial, Helvetica, sans-serif" font-size="17">
+ <rect x="104" y="582" width="15" height="15" rx="4" fill="#9caea3"/>
+ <text x="130" y="595" fill="#5b6e65">Fixed keys, quotes &amp; punctuation</text>
+ <rect x="489" y="582" width="15" height="15" rx="4" fill="#79dfad" stroke="#4f9e73"/>
+ <text x="515" y="595" fill="#5b6e65">Changeable answer slots</text>
+</g>
+<!-- Algorithm, explicitly distinguishing denoising from final constraints -->
+<rect x="72" y="652" width="1296" height="150" rx="20" fill="#fff" stroke="#dbe3dc"/>
+<g font-family="Arial, Helvetica, sans-serif">
+ <text x="105" y="690" fill="#75857c" font-size="12" font-weight="700" letter-spacing="1.8">01 / INITIALIZE</text>
+ <text x="105" y="726" fill="#233d2f" font-size="23" font-weight="700">Full-vocabulary noise</text>
+ <text x="105" y="758" fill="#64766a" font-size="17">Only in the changeable slots.</text>
+ <path d="M434 724H489" stroke="#829b91" stroke-width="2" marker-end="url(#arrow)"/>
+ <text x="529" y="690" fill="#75857c" font-size="12" font-weight="700" letter-spacing="1.8">02 / DENOISE</text>
+ <text x="529" y="726" fill="#233d2f" font-size="23" font-weight="700">Refine all slots together</text>
+ <text x="529" y="758" fill="#64766a" font-size="17">N steps; value tokens stay unrestricted.</text>
+ <path d="M898 724H946" stroke="#829b91" stroke-width="2" marker-end="url(#arrow)"/>
+ <text x="981" y="690" fill="#477c64" font-size="12" font-weight="700" letter-spacing="1.8">03 / FINAL READOUT</text>
+ <text x="981" y="726" fill="#233d2f" font-size="23" font-weight="700">Choose allowed values</text>
+ <text x="981" y="758" fill="#64766a" font-size="17">Highest allowed logits → valid JSON.</text>
+ <text x="76" y="850" fill="#748378" font-size="16">Shown: aligned single-token choices. Valid structure guarantees allowed values—not correct judgments.</text>
+ <text x="1366" y="850" text-anchor="end" fill="#748378" font-size="14">open-jev</text>
+</g>
+</svg>
