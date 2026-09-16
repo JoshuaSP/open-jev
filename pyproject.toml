@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "open-jev"
+version = "0.1.0"
+description = "Finite-JSON decision inference with DiffusionGemma and reproducible benchmark receipts"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "MIT"
+dependencies = ["modal>=1.0,<2"]
+
+[project.optional-dependencies]
+inference = ["torch==2.14.0", "torchvision==0.29.0", "Pillow", "transformers==5.11.0", "accelerate", "huggingface-hub", "hf-xet"]
+
+[tool.setuptools]
+py-modules = ["inference", "infer", "json_canvas", "constraints", "modal_app", "lab_benchmark", "batch_benchmark", "public_eval_benchmark", "public_eval_token_audit", "public_eval_report"]

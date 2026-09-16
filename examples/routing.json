@@ -1,0 +1,7 @@
+{
+  "document": "My subscription was charged twice this month. Please refund the duplicate charge.",
+  "questions": {
+    "department": {"question": "Which department should handle this request?", "options": ["billing", "technical", "sales"]},
+    "refund_requested": {"question": "Does the customer request a refund?", "options": [false, true]}
+  }
+}

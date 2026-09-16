@@ -1,0 +1,4078 @@
+{
+  "id": "security_incidents",
+  "title": "Security Incidents",
+  "n_cases": 240,
+  "models": [
+    {
+      "key": "opus",
+      "title": "Opus",
+      "family": "anthropic"
+    },
+    {
+      "key": "sol",
+      "title": "Sol",
+      "family": "openai"
+    },
+    {
+      "key": "typesafe",
+      "title": "TypeSafe",
+      "family": "typesafe"
+    }
+  ],
+  "policies": [
+    "playbook"
+  ],
+  "examples": [
+    {
+      "case_id": "art_T1040-5__badge_onsite__t2",
+      "policy": "playbook",
+      "label": "Opus differs from the other two",
+      "name": "Network sniffing while badge onsite"
+    },
+    {
+      "case_id": "art_T1021.006-1__factor_established__t1",
+      "policy": "playbook",
+      "label": "Sol differs from the other two",
+      "name": "WinRM access on production server"
+    },
+    {
+      "case_id": "art_T1003.001-2__factor_recent__t1",
+      "policy": "playbook",
+      "label": "TypeSafe differs from the other two",
+      "name": "LSASS memory dump via comsvcs"
+    },
+    {
+      "case_id": "art_T1574.001-2__peer_contained__t0",
+      "policy": "playbook",
+      "label": "All three miss the reference",
+      "name": "Amsi.dll renamed as WinAppXRT"
+    },
+    {
+      "case_id": "art_T1546.018-2__change_covers__t2",
+      "policy": "playbook",
+      "label": "All three agree",
+      "name": "Python startup hook via calc.exe"
+    }
+  ],
+  "cases": {
+    "art_T1040-5__badge_onsite__t2": {
+      "models": {
+        "opus": {
+          "title": "Opus",
+          "model": "anthropic:claude-opus-5",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "ESCALATE TIER2",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.tier2"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "dev",
+                  "tier": 2,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.57,
+                  "value": 0.72,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.38,
+                  "value": 0.12,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.030000000000000027,
+                  "value": 0.72,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "0.15 < P \u2264 0.60 on an identity alert: notify the user",
+                  "holds": false,
+                  "rule": "queue",
+                  "fired": false,
+                  "margin": 0.12,
+                  "value": 0.72,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 0,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.72
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.12
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 1.69,
+                  "confidence": 0.39,
+                  "probabilities": {
+                    "0": 0.08,
+                    "1": 0.3,
+                    "2": 0.47,
+                    "3": 0.15
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 0.038335,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 10.463452083058655
+        },
+        "sol": {
+          "title": "Sol",
+          "model": "openai:gpt-5.6-sol",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "NOTIFY USER",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.notify"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "dev",
+                  "tier": 2,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.25,
+                  "value": 0.4,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.46,
+                  "value": 0.04,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.35,
+                  "value": 0.4,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "0.15 < P \u2264 0.60 on an identity alert: notify the user",
+                  "holds": true,
+                  "rule": "queue",
+                  "fired": true,
+                  "margin": 0.19999999999999996,
+                  "value": 0.4,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 0,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.4
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.04
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 0.5,
+                  "confidence": 0.5,
+                  "probabilities": {
+                    "0": 0.58,
+                    "1": 0.35,
+                    "2": 0.06,
+                    "3": 0.01
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 0.021135,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 5.525809790939093
+        },
+        "typesafe": {
+          "title": "TypeSafe",
+          "model": "typesafe:v13_snowy_elephant",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "NOTIFY USER",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.notify"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "dev",
+                  "tier": 2,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.19000000000000003,
+                  "value": 0.34,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.4,
+                  "value": 0.1,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.41,
+                  "value": 0.34,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "0.15 < P \u2264 0.60 on an identity alert: notify the user",
+                  "holds": true,
+                  "rule": "queue",
+                  "fired": true,
+                  "margin": 0.25999999999999995,
+                  "value": 0.34,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 0,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.34,
+                  "stats": {}
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.1,
+                  "stats": {}
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 1.16,
+                  "confidence": 0.45,
+                  "probabilities": {
+                    "0": 0.2,
+                    "1": 0.47,
+                    "2": 0.29,
+                    "3": 0.04
+                  },
+                  "legend": {
+                    "0": "Speculative: hedged language, or a single weak indicator",
+                    "1": "Suggestive: one concrete indicator, uncorroborated",
+                    "2": "Corroborated: independent indicators agree",
+                    "3": "Confirmed: direct proof of unauthorized activity"
+                  },
+                  "stats": {}
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 9.9372e-05,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 0.21213724999688566
+        }
+      },
+      "references": [
+        {
+          "title": "GPT-6 Astra, high thinking, one question per request",
+          "decisions": {
+            "playbook": [
+              [
+                "NOTIFY USER",
+                "queue"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Claude Fable 5.1 high, one question per request; Claude Opus 5 high on the 88 documents Fable refused or failed",
+          "decisions": {
+            "playbook": [
+              [
+                "NOTIFY USER",
+                "queue"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Consensus: mean of Astra and Fable probabilities for every question",
+          "decisions": {
+            "playbook": [
+              [
+                "NOTIFY USER",
+                "queue"
+              ]
+            ]
+          }
+        }
+      ],
+      "reference_answers": {
+        "triage": {
+          "context_explains_activity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.01,
+                  "false": 0.99
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.03,
+                  "false": 0.97
+                }
+              }
+            ]
+          },
+          "evidence_strength": {
+            "type": "score",
+            "sets": [
+              {
+                "value": "0",
+                "probabilities": {
+                  "0": 0.72,
+                  "1": 0.23,
+                  "2": 0.045,
+                  "3": 0.005
+                }
+              },
+              {
+                "value": "0",
+                "probabilities": {
+                  "0": 0.5,
+                  "1": 0.38,
+                  "2": 0.1,
+                  "3": 0.02
+                }
+              }
+            ]
+          },
+          "is_true_positive": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.35,
+                  "false": 0.65
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.3,
+                  "false": 0.7
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "art_T1021.006-1__factor_established__t1": {
+      "models": {
+        "opus": {
+          "title": "Opus",
+          "model": "anthropic:claude-opus-5",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "NOTIFY USER",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.notify"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "prod",
+                  "tier": 1,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.020000000000000018,
+                  "value": 0.17,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.04999999999999999,
+                  "value": 0.45,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.58,
+                  "value": 0.17,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "0.15 < P \u2264 0.60 on an identity alert: notify the user",
+                  "holds": true,
+                  "rule": "queue",
+                  "fired": true,
+                  "margin": 0.42999999999999994,
+                  "value": 0.17,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 1,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.17
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.45
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 0.5,
+                  "confidence": 0.5,
+                  "probabilities": {
+                    "0": 0.62,
+                    "1": 0.28,
+                    "2": 0.08,
+                    "3": 0.02
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 0.03625,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 10.858113792026415
+        },
+        "sol": {
+          "title": "Sol",
+          "model": "openai:gpt-5.6-sol",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "ESCALATE TIER2",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.tier2"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "prod",
+                  "tier": 1,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.03,
+                  "value": 0.12,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.32,
+                  "value": 0.18,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.63,
+                  "value": 0.12,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "0.15 < P \u2264 0.60 on an identity alert: notify the user",
+                  "holds": false,
+                  "rule": "queue",
+                  "fired": false,
+                  "margin": 0.48,
+                  "value": 0.12,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 1,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.12
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.18
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 0.21,
+                  "confidence": 0.79,
+                  "probabilities": {
+                    "0": 0.82,
+                    "1": 0.15,
+                    "2": 0.03,
+                    "3": 0.0
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 0.016445,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 3.780652583925985
+        },
+        "typesafe": {
+          "title": "TypeSafe",
+          "model": "typesafe:v13_snowy_elephant",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "NOTIFY USER",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.notify"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "prod",
+                  "tier": 1,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.05000000000000002,
+                  "value": 0.2,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.32999999999999996,
+                  "value": 0.17,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.55,
+                  "value": 0.2,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "0.15 < P \u2264 0.60 on an identity alert: notify the user",
+                  "holds": true,
+                  "rule": "queue",
+                  "fired": true,
+                  "margin": 0.39999999999999997,
+                  "value": 0.2,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 1,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.2,
+                  "stats": {}
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.17,
+                  "stats": {}
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 0.63,
+                  "confidence": 0.37,
+                  "probabilities": {
+                    "0": 0.54,
+                    "1": 0.3,
+                    "2": 0.16,
+                    "3": 0.0
+                  },
+                  "legend": {
+                    "0": "Speculative: hedged language, or a single weak indicator",
+                    "1": "Suggestive: one concrete indicator, uncorroborated",
+                    "2": "Corroborated: independent indicators agree",
+                    "3": "Confirmed: direct proof of unauthorized activity"
+                  },
+                  "stats": {}
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 8.7822e-05,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 0.1762316250242293
+        }
+      },
+      "references": [
+        {
+          "title": "GPT-6 Astra, high thinking, one question per request",
+          "decisions": {
+            "playbook": [
+              [
+                "NOTIFY USER",
+                "queue"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Claude Fable 5.1 high, one question per request; Claude Opus 5 high on the 88 documents Fable refused or failed",
+          "decisions": {
+            "playbook": [
+              [
+                "NOTIFY USER",
+                "queue"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Consensus: mean of Astra and Fable probabilities for every question",
+          "decisions": {
+            "playbook": [
+              [
+                "NOTIFY USER",
+                "queue"
+              ]
+            ]
+          }
+        }
+      ],
+      "reference_answers": {
+        "triage": {
+          "context_explains_activity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.01,
+                  "false": 0.99
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.05,
+                  "false": 0.95
+                }
+              }
+            ]
+          },
+          "is_true_positive": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.2,
+                  "false": 0.8
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.3,
+                  "false": 0.7
+                }
+              }
+            ]
+          },
+          "evidence_strength": {
+            "type": "score",
+            "sets": [
+              {
+                "value": "0",
+                "probabilities": {
+                  "0": 0.96,
+                  "1": 0.035,
+                  "2": 0.004,
+                  "3": 0.001
+                }
+              },
+              {
+                "value": "0",
+                "probabilities": {
+                  "0": 0.82,
+                  "1": 0.14,
+                  "2": 0.03,
+                  "3": 0.01
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "art_T1003.001-2__factor_recent__t1": {
+      "models": {
+        "opus": {
+          "title": "Opus",
+          "model": "anthropic:claude-opus-5",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "REVOKE SESSIONS",
+                  "heavy"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.act",
+                "containment",
+                "gate2",
+                "G2",
+                "G2.revoke_sessions"
+              ],
+              "outputs": {
+                "band": "act",
+                "state": {
+                  "environment": "prod",
+                  "tier": 1,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.77,
+                  "value": 0.92,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.46,
+                  "value": 0.04,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": true,
+                  "rule": "disposition",
+                  "fired": true,
+                  "margin": 0.17000000000000004,
+                  "value": 0.92,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "outbound_channel_active",
+                  "test": "P > 0.45: enters group 1",
+                  "holds": false,
+                  "rule": "data is leaving now",
+                  "fired": false,
+                  "margin": 0.30000000000000004,
+                  "value": 0.15,
+                  "group": "enters group 1",
+                  "group_holds": false
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.50: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.28,
+                  "value": 0.22,
+                  "group": "enters group 2",
+                  "group_holds": true
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.40: enters group 2",
+                  "holds": true,
+                  "rule": "the attacker has access",
+                  "fired": true,
+                  "margin": 0.38,
+                  "value": 0.78,
+                  "group": "enters group 2",
+                  "group_holds": true
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.65",
+                  "holds": false,
+                  "rule": "disable account",
+                  "fired": false,
+                  "margin": 0.43000000000000005,
+                  "value": 0.22,
+                  "group": "group 2: disable account",
+                  "group_holds": false
+                },
+                {
+                  "qid": "spread_beyond_initial_entity",
+                  "test": "P > 0.50",
+                  "holds": false,
+                  "rule": "disable account",
+                  "fired": false,
+                  "margin": 0.25,
+                  "value": 0.25,
+                  "group": "group 2: disable account",
+                  "group_holds": false
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "revoke access key",
+                  "fired": true,
+                  "margin": 0.18000000000000005,
+                  "value": 0.78,
+                  "group": "group 2: revoke access key",
+                  "group_holds": true
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.50",
+                  "holds": false,
+                  "rule": "revoke sessions",
+                  "fired": false,
+                  "margin": 0.28,
+                  "value": 0.22,
+                  "group": "group 2: revoke sessions",
+                  "group_holds": true
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "revoke sessions",
+                  "fired": true,
+                  "margin": 0.18000000000000005,
+                  "value": 0.78,
+                  "group": "group 2: revoke sessions",
+                  "group_holds": true
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.40",
+                  "holds": true,
+                  "rule": "require reauth",
+                  "fired": true,
+                  "margin": 0.38,
+                  "value": 0.78,
+                  "group": "group 2: require reauth",
+                  "group_holds": true
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 2,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.92
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.04
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 2.1599999999999997,
+                  "confidence": 0.56,
+                  "probabilities": {
+                    "0": 0.02,
+                    "1": 0.1,
+                    "2": 0.58,
+                    "3": 0.3
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": true,
+              "reason": "",
+              "doc": 2,
+              "questions": {
+                "credentials_exposed": 3,
+                "session_in_attacker_hands": 4,
+                "malicious_content_in_mailboxes": 5,
+                "attacker_persistence_present": 6,
+                "malicious_process_running": 7,
+                "outbound_channel_active": 8,
+                "attacker_modified_configuration": 9,
+                "activity_ongoing": 10,
+                "spread_beyond_initial_entity": 11,
+                "affected_scope": 12,
+                "attack_type": 13
+              },
+              "answers": {
+                "credentials_exposed": {
+                  "type": "noul",
+                  "noul": 0.78
+                },
+                "session_in_attacker_hands": {
+                  "type": "noul",
+                  "noul": 0.22
+                },
+                "malicious_content_in_mailboxes": {
+                  "type": "noul",
+                  "noul": 0.02
+                },
+                "attacker_persistence_present": {
+                  "type": "noul",
+                  "noul": 0.2
+                },
+                "malicious_process_running": {
+                  "type": "noul",
+                  "noul": 0.25
+                },
+                "outbound_channel_active": {
+                  "type": "noul",
+                  "noul": 0.15
+                },
+                "attacker_modified_configuration": {
+                  "type": "noul",
+                  "noul": 0.35
+                },
+                "activity_ongoing": {
+                  "type": "noul",
+                  "noul": 0.3
+                },
+                "spread_beyond_initial_entity": {
+                  "type": "noul",
+                  "noul": 0.25
+                },
+                "affected_scope": {
+                  "type": "choice",
+                  "choice": "single_entity",
+                  "confidence": 0.32500000000000007,
+                  "probabilities": {
+                    "single_entity": 0.55,
+                    "workgroup": 0.35,
+                    "organization_wide": 0.1
+                  }
+                },
+                "attack_type": {
+                  "type": "choice",
+                  "choice": "host_compromise",
+                  "confidence": 0.6266666666666666,
+                  "probabilities": {
+                    "host_compromise": 0.72,
+                    "account_takeover": 0.21,
+                    "mail_campaign": 0.01,
+                    "exfiltration": 0.06
+                  }
+                }
+              }
+            }
+          ],
+          "cost": {
+            "usd": 0.081945,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 19.192438666941598
+        },
+        "sol": {
+          "title": "Sol",
+          "model": "openai:gpt-5.6-sol",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "REVOKE SESSIONS",
+                  "heavy"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.act",
+                "containment",
+                "gate2",
+                "G2",
+                "G2.revoke_sessions"
+              ],
+              "outputs": {
+                "band": "act",
+                "state": {
+                  "environment": "prod",
+                  "tier": 1,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.78,
+                  "value": 0.93,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.49,
+                  "value": 0.01,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": true,
+                  "rule": "disposition",
+                  "fired": true,
+                  "margin": 0.18000000000000005,
+                  "value": 0.93,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "outbound_channel_active",
+                  "test": "P > 0.45: enters group 1",
+                  "holds": false,
+                  "rule": "data is leaving now",
+                  "fired": false,
+                  "margin": 0.42000000000000004,
+                  "value": 0.03,
+                  "group": "enters group 1",
+                  "group_holds": false
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.50: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.42,
+                  "value": 0.08,
+                  "group": "enters group 2",
+                  "group_holds": true
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.40: enters group 2",
+                  "holds": true,
+                  "rule": "the attacker has access",
+                  "fired": true,
+                  "margin": 0.41999999999999993,
+                  "value": 0.82,
+                  "group": "enters group 2",
+                  "group_holds": true
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.65",
+                  "holds": false,
+                  "rule": "disable account",
+                  "fired": false,
+                  "margin": 0.5700000000000001,
+                  "value": 0.08,
+                  "group": "group 2: disable account",
+                  "group_holds": false
+                },
+                {
+                  "qid": "spread_beyond_initial_entity",
+                  "test": "P > 0.50",
+                  "holds": false,
+                  "rule": "disable account",
+                  "fired": false,
+                  "margin": 0.46,
+                  "value": 0.04,
+                  "group": "group 2: disable account",
+                  "group_holds": false
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "revoke access key",
+                  "fired": true,
+                  "margin": 0.21999999999999997,
+                  "value": 0.82,
+                  "group": "group 2: revoke access key",
+                  "group_holds": true
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.50",
+                  "holds": false,
+                  "rule": "revoke sessions",
+                  "fired": false,
+                  "margin": 0.42,
+                  "value": 0.08,
+                  "group": "group 2: revoke sessions",
+                  "group_holds": true
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "revoke sessions",
+                  "fired": true,
+                  "margin": 0.21999999999999997,
+                  "value": 0.82,
+                  "group": "group 2: revoke sessions",
+                  "group_holds": true
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.40",
+                  "holds": true,
+                  "rule": "require reauth",
+                  "fired": true,
+                  "margin": 0.41999999999999993,
+                  "value": 0.82,
+                  "group": "group 2: require reauth",
+                  "group_holds": true
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 2,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.93
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.01
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 1.97,
+                  "confidence": 0.89,
+                  "probabilities": {
+                    "0": 0.01,
+                    "1": 0.05,
+                    "2": 0.9,
+                    "3": 0.04
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": true,
+              "reason": "",
+              "doc": 2,
+              "questions": {
+                "credentials_exposed": 3,
+                "session_in_attacker_hands": 4,
+                "malicious_content_in_mailboxes": 5,
+                "attacker_persistence_present": 6,
+                "malicious_process_running": 7,
+                "outbound_channel_active": 8,
+                "attacker_modified_configuration": 9,
+                "activity_ongoing": 10,
+                "spread_beyond_initial_entity": 11,
+                "affected_scope": 12,
+                "attack_type": 13
+              },
+              "answers": {
+                "credentials_exposed": {
+                  "type": "noul",
+                  "noul": 0.82
+                },
+                "session_in_attacker_hands": {
+                  "type": "noul",
+                  "noul": 0.08
+                },
+                "malicious_content_in_mailboxes": {
+                  "type": "noul",
+                  "noul": 0.01
+                },
+                "attacker_persistence_present": {
+                  "type": "noul",
+                  "noul": 0.06
+                },
+                "malicious_process_running": {
+                  "type": "noul",
+                  "noul": 0.03
+                },
+                "outbound_channel_active": {
+                  "type": "noul",
+                  "noul": 0.03
+                },
+                "attacker_modified_configuration": {
+                  "type": "noul",
+                  "noul": 0.03
+                },
+                "activity_ongoing": {
+                  "type": "noul",
+                  "noul": 0.04
+                },
+                "spread_beyond_initial_entity": {
+                  "type": "noul",
+                  "noul": 0.04
+                },
+                "affected_scope": {
+                  "type": "choice",
+                  "choice": "single_entity",
+                  "confidence": 0.9099999999999999,
+                  "probabilities": {
+                    "single_entity": 0.94,
+                    "workgroup": 0.05,
+                    "organization_wide": 0.01
+                  }
+                },
+                "attack_type": {
+                  "type": "choice",
+                  "choice": "host_compromise",
+                  "confidence": 0.7866666666666666,
+                  "probabilities": {
+                    "host_compromise": 0.84,
+                    "account_takeover": 0.13,
+                    "mail_campaign": 0.01,
+                    "exfiltration": 0.02
+                  }
+                }
+              }
+            }
+          ],
+          "cost": {
+            "usd": 0.04118,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 10.058096583001316
+        },
+        "typesafe": {
+          "title": "TypeSafe",
+          "model": "typesafe:v13_snowy_elephant",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "NOTIFY USER",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.notify"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "prod",
+                  "tier": 1,
+                  "domain": "identity"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.41000000000000003,
+                  "value": 0.56,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.42,
+                  "value": 0.08,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.18999999999999995,
+                  "value": 0.56,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "0.15 < P \u2264 0.60 on an identity alert: notify the user",
+                  "holds": true,
+                  "rule": "queue",
+                  "fired": true,
+                  "margin": 0.039999999999999925,
+                  "value": 0.56,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 2,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.56,
+                  "stats": {}
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.08,
+                  "stats": {}
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 1.68,
+                  "confidence": 0.53,
+                  "probabilities": {
+                    "0": 0.09,
+                    "1": 0.22,
+                    "2": 0.61,
+                    "3": 0.08
+                  },
+                  "legend": {
+                    "0": "Speculative: hedged language, or a single weak indicator",
+                    "1": "Suggestive: one concrete indicator, uncorroborated",
+                    "2": "Corroborated: independent indicators agree",
+                    "3": "Confirmed: direct proof of unauthorized activity"
+                  },
+                  "stats": {}
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 9.160200000000001e-05,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 0.2902708330657333
+        }
+      },
+      "references": [
+        {
+          "title": "GPT-6 Astra, high thinking, one question per request",
+          "decisions": {
+            "playbook": [
+              [
+                "BLOCK EGRESS ASSET",
+                "light"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Claude Fable 5.1 high, one question per request; Claude Opus 5 high on the 88 documents Fable refused or failed",
+          "decisions": {
+            "playbook": [
+              [
+                "REVOKE SESSIONS",
+                "heavy"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Consensus: mean of Astra and Fable probabilities for every question",
+          "decisions": {
+            "playbook": [
+              [
+                "REVOKE SESSIONS",
+                "heavy"
+              ]
+            ]
+          }
+        }
+      ],
+      "reference_answers": {
+        "triage": {
+          "context_explains_activity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.01,
+                  "false": 0.99
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.02,
+                  "false": 0.98
+                }
+              }
+            ]
+          },
+          "is_true_positive": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.93,
+                  "false": 0.06999999999999995
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.9,
+                  "false": 0.09999999999999998
+                }
+              }
+            ]
+          },
+          "evidence_strength": {
+            "type": "score",
+            "sets": [
+              {
+                "value": "2",
+                "probabilities": {
+                  "0": 0.06,
+                  "1": 0.36,
+                  "2": 0.56,
+                  "3": 0.02
+                }
+              },
+              {
+                "value": "2",
+                "probabilities": {
+                  "0": 0.02,
+                  "1": 0.11,
+                  "2": 0.58,
+                  "3": 0.29
+                }
+              }
+            ]
+          }
+        },
+        "containment": {
+          "malicious_content_in_mailboxes": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.0,
+                  "false": 1.0
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.02,
+                  "false": 0.98
+                }
+              }
+            ]
+          },
+          "attacker_persistence_present": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.15,
+                  "false": 0.85
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.12,
+                  "false": 0.88
+                }
+              }
+            ]
+          },
+          "credentials_exposed": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.7,
+                  "false": 0.30000000000000004
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.68,
+                  "false": 0.31999999999999995
+                }
+              }
+            ]
+          },
+          "malicious_process_running": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.1,
+                  "false": 0.9
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.16,
+                  "false": 0.84
+                }
+              }
+            ]
+          },
+          "outbound_channel_active": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": null,
+                "probabilities": {
+                  "true": 0.5,
+                  "false": 0.5
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.07,
+                  "false": 0.9299999999999999
+                }
+              }
+            ]
+          },
+          "session_in_attacker_hands": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.55,
+                  "false": 0.44999999999999996
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.78,
+                  "false": 0.21999999999999997
+                }
+              }
+            ]
+          },
+          "spread_beyond_initial_entity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.03,
+                  "false": 0.97
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.08,
+                  "false": 0.92
+                }
+              }
+            ]
+          },
+          "affected_scope": {
+            "type": "choice",
+            "sets": [
+              {
+                "value": "workgroup",
+                "probabilities": {
+                  "single_entity": 0.1,
+                  "workgroup": 0.88,
+                  "organization_wide": 0.02
+                }
+              },
+              {
+                "value": "workgroup",
+                "probabilities": {
+                  "single_entity": 0.24,
+                  "workgroup": 0.58,
+                  "organization_wide": 0.18
+                }
+              }
+            ]
+          },
+          "activity_ongoing": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.45,
+                  "false": 0.55
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.42,
+                  "false": 0.5800000000000001
+                }
+              }
+            ]
+          },
+          "attacker_modified_configuration": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.65,
+                  "false": 0.35
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.68,
+                  "false": 0.31999999999999995
+                }
+              }
+            ]
+          },
+          "attack_type": {
+            "type": "choice",
+            "sets": [
+              {
+                "value": "host_compromise",
+                "probabilities": {
+                  "host_compromise": 0.74,
+                  "account_takeover": 0.24,
+                  "mail_campaign": 0.005,
+                  "exfiltration": 0.015
+                }
+              },
+              {
+                "value": "host_compromise",
+                "probabilities": {
+                  "host_compromise": 0.79,
+                  "account_takeover": 0.17,
+                  "mail_campaign": 0.01,
+                  "exfiltration": 0.03
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "art_T1574.001-2__peer_contained__t0": {
+      "models": {
+        "opus": {
+          "title": "Opus",
+          "model": "anthropic:claude-opus-5",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "QUARANTINE FILE",
+                  "light"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.act",
+                "containment",
+                "gate2",
+                "G4",
+                "G4.quarantine_file"
+              ],
+              "outputs": {
+                "band": "act",
+                "state": {
+                  "environment": "prod",
+                  "tier": 0,
+                  "domain": "endpoint"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it (never on a domain controller): close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.74,
+                  "value": 0.89,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.43,
+                  "value": 0.07,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": true,
+                  "rule": "disposition",
+                  "fired": true,
+                  "margin": 0.14,
+                  "value": 0.89,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "outbound_channel_active",
+                  "test": "P > 0.45: enters group 1",
+                  "holds": false,
+                  "rule": "data is leaving now",
+                  "fired": false,
+                  "margin": 0.33,
+                  "value": 0.12,
+                  "group": "enters group 1",
+                  "group_holds": false
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.50: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.3,
+                  "value": 0.2,
+                  "group": "enters group 2",
+                  "group_holds": false
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.40: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.25,
+                  "value": 0.15,
+                  "group": "enters group 2",
+                  "group_holds": false
+                },
+                {
+                  "qid": "malicious_content_in_mailboxes",
+                  "test": "P > 0.50: enters group 3",
+                  "holds": false,
+                  "rule": "malicious mail is delivered",
+                  "fired": false,
+                  "margin": 0.47,
+                  "value": 0.03,
+                  "group": "enters group 3",
+                  "group_holds": false
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60: enters group 4",
+                  "holds": true,
+                  "rule": "the host is compromised",
+                  "fired": true,
+                  "margin": 0.12,
+                  "value": 0.72,
+                  "group": "enters group 4",
+                  "group_holds": true
+                },
+                {
+                  "qid": "malicious_process_running",
+                  "test": "P > 0.60: enters group 4",
+                  "holds": false,
+                  "rule": "the host is compromised",
+                  "fired": false,
+                  "margin": 0.09999999999999998,
+                  "value": 0.5,
+                  "group": "enters group 4",
+                  "group_holds": true
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "isolate host",
+                  "fired": true,
+                  "margin": 0.12,
+                  "value": 0.72,
+                  "group": "group 4: isolate host",
+                  "group_holds": true
+                },
+                {
+                  "qid": "activity_ongoing",
+                  "test": "P > 0.50",
+                  "holds": true,
+                  "rule": "isolate host",
+                  "fired": true,
+                  "margin": 0.09999999999999998,
+                  "value": 0.6,
+                  "group": "group 4: isolate host",
+                  "group_holds": true
+                },
+                {
+                  "qid": "malicious_process_running",
+                  "test": "P > 0.60",
+                  "holds": false,
+                  "rule": "kill process",
+                  "fired": false,
+                  "margin": 0.09999999999999998,
+                  "value": 0.5,
+                  "group": "group 4: kill process",
+                  "group_holds": false
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "quarantine file",
+                  "fired": true,
+                  "margin": 0.12,
+                  "value": 0.72,
+                  "group": "group 4: quarantine file",
+                  "group_holds": true
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 3,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.89
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.07
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 2.1799999999999997,
+                  "confidence": 0.43999999999999995,
+                  "probabilities": {
+                    "0": 0.03,
+                    "1": 0.13,
+                    "2": 0.47,
+                    "3": 0.37
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": true,
+              "reason": "",
+              "doc": 3,
+              "questions": {
+                "credentials_exposed": 3,
+                "session_in_attacker_hands": 4,
+                "malicious_content_in_mailboxes": 5,
+                "attacker_persistence_present": 6,
+                "malicious_process_running": 7,
+                "outbound_channel_active": 8,
+                "attacker_modified_configuration": 9,
+                "activity_ongoing": 10,
+                "spread_beyond_initial_entity": 11,
+                "affected_scope": 12,
+                "attack_type": 13
+              },
+              "answers": {
+                "credentials_exposed": {
+                  "type": "noul",
+                  "noul": 0.15
+                },
+                "session_in_attacker_hands": {
+                  "type": "noul",
+                  "noul": 0.2
+                },
+                "malicious_content_in_mailboxes": {
+                  "type": "noul",
+                  "noul": 0.03
+                },
+                "attacker_persistence_present": {
+                  "type": "noul",
+                  "noul": 0.72
+                },
+                "malicious_process_running": {
+                  "type": "noul",
+                  "noul": 0.5
+                },
+                "outbound_channel_active": {
+                  "type": "noul",
+                  "noul": 0.12
+                },
+                "attacker_modified_configuration": {
+                  "type": "noul",
+                  "noul": 0.75
+                },
+                "activity_ongoing": {
+                  "type": "noul",
+                  "noul": 0.6
+                },
+                "spread_beyond_initial_entity": {
+                  "type": "noul",
+                  "noul": 0.45
+                },
+                "affected_scope": {
+                  "type": "choice",
+                  "choice": "organization_wide",
+                  "confidence": 0.39999999999999997,
+                  "probabilities": {
+                    "single_entity": 0.25,
+                    "workgroup": 0.15,
+                    "organization_wide": 0.6
+                  }
+                },
+                "attack_type": {
+                  "type": "choice",
+                  "choice": "host_compromise",
+                  "confidence": 0.8266666666666667,
+                  "probabilities": {
+                    "host_compromise": 0.87,
+                    "account_takeover": 0.07,
+                    "mail_campaign": 0.01,
+                    "exfiltration": 0.05
+                  }
+                }
+              }
+            }
+          ],
+          "cost": {
+            "usd": 0.087825,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 18.58680849999655
+        },
+        "sol": {
+          "title": "Sol",
+          "model": "openai:gpt-5.6-sol",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "QUARANTINE FILE",
+                  "light"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.act",
+                "containment",
+                "gate2",
+                "G4",
+                "G4.quarantine_file"
+              ],
+              "outputs": {
+                "band": "act",
+                "state": {
+                  "environment": "prod",
+                  "tier": 0,
+                  "domain": "endpoint"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it (never on a domain controller): close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.8099999999999999,
+                  "value": 0.96,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.49,
+                  "value": 0.01,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": true,
+                  "rule": "disposition",
+                  "fired": true,
+                  "margin": 0.20999999999999996,
+                  "value": 0.96,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "outbound_channel_active",
+                  "test": "P > 0.45: enters group 1",
+                  "holds": false,
+                  "rule": "data is leaving now",
+                  "fired": false,
+                  "margin": 0.4,
+                  "value": 0.05,
+                  "group": "enters group 1",
+                  "group_holds": false
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.50: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.47,
+                  "value": 0.03,
+                  "group": "enters group 2",
+                  "group_holds": false
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.40: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.36000000000000004,
+                  "value": 0.04,
+                  "group": "enters group 2",
+                  "group_holds": false
+                },
+                {
+                  "qid": "malicious_content_in_mailboxes",
+                  "test": "P > 0.50: enters group 3",
+                  "holds": false,
+                  "rule": "malicious mail is delivered",
+                  "fired": false,
+                  "margin": 0.499,
+                  "value": 0.001,
+                  "group": "enters group 3",
+                  "group_holds": false
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60: enters group 4",
+                  "holds": true,
+                  "rule": "the host is compromised",
+                  "fired": true,
+                  "margin": 0.30000000000000004,
+                  "value": 0.9,
+                  "group": "enters group 4",
+                  "group_holds": true
+                },
+                {
+                  "qid": "malicious_process_running",
+                  "test": "P > 0.60: enters group 4",
+                  "holds": false,
+                  "rule": "the host is compromised",
+                  "fired": false,
+                  "margin": 0.48,
+                  "value": 0.12,
+                  "group": "enters group 4",
+                  "group_holds": true
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "isolate host",
+                  "fired": true,
+                  "margin": 0.30000000000000004,
+                  "value": 0.9,
+                  "group": "group 4: isolate host",
+                  "group_holds": false
+                },
+                {
+                  "qid": "activity_ongoing",
+                  "test": "P > 0.50",
+                  "holds": false,
+                  "rule": "isolate host",
+                  "fired": false,
+                  "margin": 0.26,
+                  "value": 0.24,
+                  "group": "group 4: isolate host",
+                  "group_holds": false
+                },
+                {
+                  "qid": "malicious_process_running",
+                  "test": "P > 0.60",
+                  "holds": false,
+                  "rule": "kill process",
+                  "fired": false,
+                  "margin": 0.48,
+                  "value": 0.12,
+                  "group": "group 4: kill process",
+                  "group_holds": false
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "quarantine file",
+                  "fired": true,
+                  "margin": 0.30000000000000004,
+                  "value": 0.9,
+                  "group": "group 4: quarantine file",
+                  "group_holds": true
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 3,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.96
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.01
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 1.95,
+                  "confidence": 0.85,
+                  "probabilities": {
+                    "0": 0.01,
+                    "1": 0.08,
+                    "2": 0.86,
+                    "3": 0.05
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": true,
+              "reason": "",
+              "doc": 3,
+              "questions": {
+                "credentials_exposed": 3,
+                "session_in_attacker_hands": 4,
+                "malicious_content_in_mailboxes": 5,
+                "attacker_persistence_present": 6,
+                "malicious_process_running": 7,
+                "outbound_channel_active": 8,
+                "attacker_modified_configuration": 9,
+                "activity_ongoing": 10,
+                "spread_beyond_initial_entity": 11,
+                "affected_scope": 12,
+                "attack_type": 13
+              },
+              "answers": {
+                "credentials_exposed": {
+                  "type": "noul",
+                  "noul": 0.04
+                },
+                "session_in_attacker_hands": {
+                  "type": "noul",
+                  "noul": 0.03
+                },
+                "malicious_content_in_mailboxes": {
+                  "type": "noul",
+                  "noul": 0.001
+                },
+                "attacker_persistence_present": {
+                  "type": "noul",
+                  "noul": 0.9
+                },
+                "malicious_process_running": {
+                  "type": "noul",
+                  "noul": 0.12
+                },
+                "outbound_channel_active": {
+                  "type": "noul",
+                  "noul": 0.05
+                },
+                "attacker_modified_configuration": {
+                  "type": "noul",
+                  "noul": 0.96
+                },
+                "activity_ongoing": {
+                  "type": "noul",
+                  "noul": 0.24
+                },
+                "spread_beyond_initial_entity": {
+                  "type": "noul",
+                  "noul": 0.05
+                },
+                "affected_scope": {
+                  "type": "choice",
+                  "choice": "organization_wide",
+                  "confidence": 0.49000000000000005,
+                  "probabilities": {
+                    "single_entity": 0.32,
+                    "workgroup": 0.02,
+                    "organization_wide": 0.66
+                  }
+                },
+                "attack_type": {
+                  "type": "choice",
+                  "choice": "host_compromise",
+                  "confidence": 0.98,
+                  "probabilities": {
+                    "host_compromise": 0.985,
+                    "account_takeover": 0.009,
+                    "mail_campaign": 0.001,
+                    "exfiltration": 0.005
+                  }
+                }
+              }
+            }
+          ],
+          "cost": {
+            "usd": 0.051879999999999996,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 13.750929041998461
+        },
+        "typesafe": {
+          "title": "TypeSafe",
+          "model": "typesafe:v13_snowy_elephant",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "QUARANTINE FILE",
+                  "light"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.act",
+                "containment",
+                "gate2",
+                "G4",
+                "G4.quarantine_file"
+              ],
+              "outputs": {
+                "band": "act",
+                "state": {
+                  "environment": "prod",
+                  "tier": 0,
+                  "domain": "endpoint"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it (never on a domain controller): close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.6699999999999999,
+                  "value": 0.82,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.44,
+                  "value": 0.06,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": true,
+                  "rule": "disposition",
+                  "fired": true,
+                  "margin": 0.06999999999999995,
+                  "value": 0.82,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "outbound_channel_active",
+                  "test": "P > 0.45: enters group 1",
+                  "holds": false,
+                  "rule": "data is leaving now",
+                  "fired": false,
+                  "margin": 0.29000000000000004,
+                  "value": 0.16,
+                  "group": "enters group 1",
+                  "group_holds": false
+                },
+                {
+                  "qid": "session_in_attacker_hands",
+                  "test": "P > 0.50: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.26,
+                  "value": 0.24,
+                  "group": "enters group 2",
+                  "group_holds": false
+                },
+                {
+                  "qid": "credentials_exposed",
+                  "test": "P > 0.40: enters group 2",
+                  "holds": false,
+                  "rule": "the attacker has access",
+                  "fired": false,
+                  "margin": 0.10000000000000003,
+                  "value": 0.3,
+                  "group": "enters group 2",
+                  "group_holds": false
+                },
+                {
+                  "qid": "malicious_content_in_mailboxes",
+                  "test": "P > 0.50: enters group 3",
+                  "holds": false,
+                  "rule": "malicious mail is delivered",
+                  "fired": false,
+                  "margin": 0.41000000000000003,
+                  "value": 0.09,
+                  "group": "enters group 3",
+                  "group_holds": false
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60: enters group 4",
+                  "holds": true,
+                  "rule": "the host is compromised",
+                  "fired": true,
+                  "margin": 0.08000000000000007,
+                  "value": 0.68,
+                  "group": "enters group 4",
+                  "group_holds": true
+                },
+                {
+                  "qid": "malicious_process_running",
+                  "test": "P > 0.60: enters group 4",
+                  "holds": false,
+                  "rule": "the host is compromised",
+                  "fired": false,
+                  "margin": 0.42,
+                  "value": 0.18,
+                  "group": "enters group 4",
+                  "group_holds": true
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "isolate host",
+                  "fired": true,
+                  "margin": 0.08000000000000007,
+                  "value": 0.68,
+                  "group": "group 4: isolate host",
+                  "group_holds": false
+                },
+                {
+                  "qid": "activity_ongoing",
+                  "test": "P > 0.50",
+                  "holds": false,
+                  "rule": "isolate host",
+                  "fired": false,
+                  "margin": 0.14,
+                  "value": 0.36,
+                  "group": "group 4: isolate host",
+                  "group_holds": false
+                },
+                {
+                  "qid": "malicious_process_running",
+                  "test": "P > 0.60",
+                  "holds": false,
+                  "rule": "kill process",
+                  "fired": false,
+                  "margin": 0.42,
+                  "value": 0.18,
+                  "group": "group 4: kill process",
+                  "group_holds": false
+                },
+                {
+                  "qid": "attacker_persistence_present",
+                  "test": "P > 0.60",
+                  "holds": true,
+                  "rule": "quarantine file",
+                  "fired": true,
+                  "margin": 0.08000000000000007,
+                  "value": 0.68,
+                  "group": "group 4: quarantine file",
+                  "group_holds": true
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 3,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.82,
+                  "stats": {}
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.06,
+                  "stats": {}
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 2.25,
+                  "confidence": 0.54,
+                  "probabilities": {
+                    "0": 0.01,
+                    "1": 0.08,
+                    "2": 0.55,
+                    "3": 0.36
+                  },
+                  "legend": {
+                    "0": "Speculative: hedged language, or a single weak indicator",
+                    "1": "Suggestive: one concrete indicator, uncorroborated",
+                    "2": "Corroborated: independent indicators agree",
+                    "3": "Confirmed: direct proof of unauthorized activity"
+                  },
+                  "stats": {}
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": true,
+              "reason": "",
+              "doc": 3,
+              "questions": {
+                "credentials_exposed": 3,
+                "session_in_attacker_hands": 4,
+                "malicious_content_in_mailboxes": 5,
+                "attacker_persistence_present": 6,
+                "malicious_process_running": 7,
+                "outbound_channel_active": 8,
+                "attacker_modified_configuration": 9,
+                "activity_ongoing": 10,
+                "spread_beyond_initial_entity": 11,
+                "affected_scope": 12,
+                "attack_type": 13
+              },
+              "answers": {
+                "credentials_exposed": {
+                  "type": "noul",
+                  "noul": 0.3,
+                  "stats": {}
+                },
+                "session_in_attacker_hands": {
+                  "type": "noul",
+                  "noul": 0.24,
+                  "stats": {}
+                },
+                "malicious_content_in_mailboxes": {
+                  "type": "noul",
+                  "noul": 0.09,
+                  "stats": {}
+                },
+                "attacker_persistence_present": {
+                  "type": "noul",
+                  "noul": 0.68,
+                  "stats": {}
+                },
+                "malicious_process_running": {
+                  "type": "noul",
+                  "noul": 0.18,
+                  "stats": {}
+                },
+                "outbound_channel_active": {
+                  "type": "noul",
+                  "noul": 0.16,
+                  "stats": {}
+                },
+                "attacker_modified_configuration": {
+                  "type": "noul",
+                  "noul": 0.66,
+                  "stats": {}
+                },
+                "activity_ongoing": {
+                  "type": "noul",
+                  "noul": 0.36,
+                  "stats": {}
+                },
+                "spread_beyond_initial_entity": {
+                  "type": "noul",
+                  "noul": 0.45,
+                  "stats": {}
+                },
+                "affected_scope": {
+                  "type": "choice",
+                  "choice": "organization_wide",
+                  "confidence": 0.94,
+                  "probabilities": {
+                    "organization_wide": 0.96,
+                    "single_entity": 0.04,
+                    "workgroup": 0.0
+                  },
+                  "stats": {}
+                },
+                "attack_type": {
+                  "type": "choice",
+                  "choice": "host_compromise",
+                  "confidence": 1.0,
+                  "probabilities": {
+                    "mail_campaign": 0.0,
+                    "exfiltration": 0.0,
+                    "host_compromise": 1.0,
+                    "account_takeover": 0.0
+                  },
+                  "stats": {}
+                }
+              }
+            }
+          ],
+          "cost": {
+            "usd": 0.000244104,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 0.3383368330541998
+        }
+      },
+      "references": [
+        {
+          "title": "GPT-6 Astra, high thinking, one question per request",
+          "decisions": {
+            "playbook": [
+              [
+                "ISOLATE HOST",
+                "heavy"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Claude Fable 5.1 high, one question per request; Claude Opus 5 high on the 88 documents Fable refused or failed",
+          "decisions": {
+            "playbook": [
+              [
+                "REVOKE SESSIONS",
+                "heavy"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Consensus: mean of Astra and Fable probabilities for every question",
+          "decisions": {
+            "playbook": [
+              [
+                "ISOLATE HOST",
+                "heavy"
+              ]
+            ]
+          }
+        }
+      ],
+      "reference_answers": {
+        "triage": {
+          "context_explains_activity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.01,
+                  "false": 0.99
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.02,
+                  "false": 0.98
+                }
+              }
+            ]
+          },
+          "is_true_positive": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.95,
+                  "false": 0.050000000000000044
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.87,
+                  "false": 0.13
+                }
+              }
+            ]
+          },
+          "evidence_strength": {
+            "type": "score",
+            "sets": [
+              {
+                "value": "1",
+                "probabilities": {
+                  "0": 0.03,
+                  "1": 0.55,
+                  "2": 0.4,
+                  "3": 0.02
+                }
+              },
+              {
+                "value": "2",
+                "probabilities": {
+                  "0": 0.03,
+                  "1": 0.14,
+                  "2": 0.52,
+                  "3": 0.31
+                }
+              }
+            ]
+          }
+        },
+        "containment": {
+          "malicious_content_in_mailboxes": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.0,
+                  "false": 1.0
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.02,
+                  "false": 0.98
+                }
+              }
+            ]
+          },
+          "credentials_exposed": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.05,
+                  "false": 0.95
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.07,
+                  "false": 0.9299999999999999
+                }
+              }
+            ]
+          },
+          "malicious_process_running": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.1,
+                  "false": 0.9
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.2,
+                  "false": 0.8
+                }
+              }
+            ]
+          },
+          "session_in_attacker_hands": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.3,
+                  "false": 0.7
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.55,
+                  "false": 0.44999999999999996
+                }
+              }
+            ]
+          },
+          "outbound_channel_active": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.1,
+                  "false": 0.9
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.06,
+                  "false": 0.94
+                }
+              }
+            ]
+          },
+          "activity_ongoing": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.6,
+                  "false": 0.4
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.55,
+                  "false": 0.44999999999999996
+                }
+              }
+            ]
+          },
+          "spread_beyond_initial_entity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.9,
+                  "false": 0.09999999999999998
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.62,
+                  "false": 0.38
+                }
+              }
+            ]
+          },
+          "attacker_modified_configuration": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.85,
+                  "false": 0.15000000000000002
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.82,
+                  "false": 0.18000000000000005
+                }
+              }
+            ]
+          },
+          "affected_scope": {
+            "type": "choice",
+            "sets": [
+              {
+                "value": "organization_wide",
+                "probabilities": {
+                  "single_entity": 0.01,
+                  "workgroup": 0.01,
+                  "organization_wide": 0.98
+                }
+              },
+              {
+                "value": "organization_wide",
+                "probabilities": {
+                  "single_entity": 0.04,
+                  "workgroup": 0.08,
+                  "organization_wide": 0.88
+                }
+              }
+            ]
+          },
+          "attacker_persistence_present": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.75,
+                  "false": 0.25
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.75,
+                  "false": 0.25
+                }
+              }
+            ]
+          },
+          "attack_type": {
+            "type": "choice",
+            "sets": [
+              {
+                "value": "host_compromise",
+                "probabilities": {
+                  "host_compromise": 0.99,
+                  "account_takeover": 0.008,
+                  "mail_campaign": 0.001,
+                  "exfiltration": 0.001
+                }
+              },
+              {
+                "value": "host_compromise",
+                "probabilities": {
+                  "host_compromise": 0.95,
+                  "account_takeover": 0.03,
+                  "mail_campaign": 0.005,
+                  "exfiltration": 0.015
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "art_T1546.018-2__change_covers__t2": {
+      "models": {
+        "opus": {
+          "title": "Opus",
+          "model": "anthropic:claude-opus-5",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "ESCALATE TIER2",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.tier2"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "dev",
+                  "tier": 2,
+                  "domain": "endpoint"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.5499999999999999,
+                  "value": 0.7,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.28,
+                  "value": 0.22,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.050000000000000044,
+                  "value": 0.7,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 4,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.7
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.22
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 1.75,
+                  "confidence": 0.39,
+                  "probabilities": {
+                    "0": 0.08,
+                    "1": 0.27,
+                    "2": 0.47,
+                    "3": 0.18
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 0.03793,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 12.835763209033757
+        },
+        "sol": {
+          "title": "Sol",
+          "model": "openai:gpt-5.6-sol",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "ESCALATE TIER2",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.tier2"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "dev",
+                  "tier": 2,
+                  "domain": "endpoint"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.57,
+                  "value": 0.72,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.42,
+                  "value": 0.08,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.030000000000000027,
+                  "value": 0.72,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 4,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.72
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.08
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 1.32,
+                  "confidence": 0.52,
+                  "probabilities": {
+                    "0": 0.08,
+                    "1": 0.55,
+                    "2": 0.34,
+                    "3": 0.03
+                  }
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 0.0166,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 8.20298637507949
+        },
+        "typesafe": {
+          "title": "TypeSafe",
+          "model": "typesafe:v13_snowy_elephant",
+          "decisions": {
+            "playbook": {
+              "actions": [
+                [
+                  "ESCALATE TIER2",
+                  "queue"
+                ]
+              ],
+              "keys": [
+                "trunk",
+                "gate1.queue",
+                "gate1.tier2"
+              ],
+              "outputs": {
+                "band": "middle",
+                "state": {
+                  "environment": "dev",
+                  "tier": 2,
+                  "domain": "endpoint"
+                }
+              },
+              "tests": [
+                {
+                  "qid": "is_true_positive",
+                  "test": "P < 0.15, with a record that explains it: close",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.08000000000000002,
+                  "value": 0.23,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "context_explains_activity",
+                  "test": "P > 0.50: a record explains the activity",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.36,
+                  "value": 0.14,
+                  "group": null,
+                  "group_holds": null
+                },
+                {
+                  "qid": "is_true_positive",
+                  "test": "P > 0.75: act now",
+                  "holds": false,
+                  "rule": "disposition",
+                  "fired": false,
+                  "margin": 0.52,
+                  "value": 0.23,
+                  "group": null,
+                  "group_holds": null
+                }
+              ]
+            }
+          },
+          "nodes": [
+            {
+              "node": "triage",
+              "ran": true,
+              "reason": "",
+              "doc": 4,
+              "questions": {
+                "is_true_positive": 0,
+                "context_explains_activity": 1,
+                "evidence_strength": 2
+              },
+              "answers": {
+                "is_true_positive": {
+                  "type": "noul",
+                  "noul": 0.23,
+                  "stats": {}
+                },
+                "context_explains_activity": {
+                  "type": "noul",
+                  "noul": 0.14,
+                  "stats": {}
+                },
+                "evidence_strength": {
+                  "type": "score",
+                  "score": 0.83,
+                  "confidence": 0.41,
+                  "probabilities": {
+                    "0": 0.38,
+                    "1": 0.41,
+                    "2": 0.2,
+                    "3": 0.01
+                  },
+                  "legend": {
+                    "0": "Speculative: hedged language, or a single weak indicator",
+                    "1": "Suggestive: one concrete indicator, uncorroborated",
+                    "2": "Corroborated: independent indicators agree",
+                    "3": "Confirmed: direct proof of unauthorized activity"
+                  },
+                  "stats": {}
+                }
+              }
+            },
+            {
+              "node": "containment",
+              "ran": false,
+              "reason": "the disposition was middle: only an act reaches containment",
+              "doc": null,
+              "questions": {},
+              "answers": {}
+            }
+          ],
+          "cost": {
+            "usd": 7.8162e-05,
+            "basis": "estimated_uncached",
+            "pricing_revision": "e72d99b25ec188d5e626c690a8bb76e24972d45ad72685fddcda95a1daf9ad48"
+          },
+          "seconds": 0.1853713330347091
+        }
+      },
+      "references": [
+        {
+          "title": "GPT-6 Astra, high thinking, one question per request",
+          "decisions": {
+            "playbook": [
+              [
+                "ISOLATE HOST",
+                "heavy"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Claude Fable 5.1 high, one question per request; Claude Opus 5 high on the 88 documents Fable refused or failed",
+          "decisions": {
+            "playbook": [
+              [
+                "ESCALATE TIER2",
+                "queue"
+              ]
+            ]
+          }
+        },
+        {
+          "title": "Consensus: mean of Astra and Fable probabilities for every question",
+          "decisions": {
+            "playbook": [
+              [
+                "ESCALATE TIER2",
+                "queue"
+              ]
+            ]
+          }
+        }
+      ],
+      "reference_answers": {
+        "triage": {
+          "context_explains_activity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.02,
+                  "false": 0.98
+                }
+              },
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.22,
+                  "false": 0.78
+                }
+              }
+            ]
+          },
+          "evidence_strength": {
+            "type": "score",
+            "sets": [
+              {
+                "value": "0",
+                "probabilities": {
+                  "0": 0.7,
+                  "1": 0.27,
+                  "2": 0.025,
+                  "3": 0.005
+                }
+              },
+              {
+                "value": "1",
+                "probabilities": {
+                  "0": 0.2,
+                  "1": 0.4,
+                  "2": 0.35,
+                  "3": 0.05
+                }
+              }
+            ]
+          },
+          "is_true_positive": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.82,
+                  "false": 0.18000000000000005
+                }
+              },
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.66,
+                  "false": 0.33999999999999997
+                }
+              }
+            ]
+          }
+        },
+        "containment": {
+          "malicious_content_in_mailboxes": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.0,
+                  "false": 1.0
+                }
+              }
+            ]
+          },
+          "credentials_exposed": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.03,
+                  "false": 0.97
+                }
+              }
+            ]
+          },
+          "session_in_attacker_hands": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.1,
+                  "false": 0.9
+                }
+              }
+            ]
+          },
+          "malicious_process_running": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.18,
+                  "false": 0.8200000000000001
+                }
+              }
+            ]
+          },
+          "outbound_channel_active": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.1,
+                  "false": 0.9
+                }
+              }
+            ]
+          },
+          "attacker_persistence_present": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.75,
+                  "false": 0.25
+                }
+              }
+            ]
+          },
+          "spread_beyond_initial_entity": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": false,
+                "probabilities": {
+                  "true": 0.02,
+                  "false": 0.98
+                }
+              }
+            ]
+          },
+          "activity_ongoing": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.65,
+                  "false": 0.35
+                }
+              }
+            ]
+          },
+          "affected_scope": {
+            "type": "choice",
+            "sets": [
+              {
+                "value": "single_entity",
+                "probabilities": {
+                  "single_entity": 0.98,
+                  "workgroup": 0.018,
+                  "organization_wide": 0.002
+                }
+              }
+            ]
+          },
+          "attacker_modified_configuration": {
+            "type": "noul",
+            "sets": [
+              {
+                "value": true,
+                "probabilities": {
+                  "true": 0.65,
+                  "false": 0.35
+                }
+              }
+            ]
+          },
+          "attack_type": {
+            "type": "choice",
+            "sets": [
+              {
+                "value": "host_compromise",
+                "probabilities": {
+                  "host_compromise": 0.98,
+                  "account_takeover": 0.01,
+                  "mail_campaign": 0.005,
+                  "exfiltration": 0.005
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "documents": [
+    {
+      "alert": "IDP-4010 | Network Sniffing\nasset: WKS-4052    principal: z.rasmussen    observed: 2026-08-30 10:56 UTC\nevents correlated: 2920\n\nfile: C:\\Windows\\Temp\\trace.etl\nregistry: HKLM\\System\\CurrentControlSet\\Services\\NdisCap\\",
+      "context": {
+        "asset": {
+          "environment": "dev",
+          "tier": 2,
+          "type": "Workstation"
+        },
+        "records": [
+          "activedirectory.computer\n  distinguishedName: CN=WKS-4052,OU=Workstations,DC=northwind,DC=example\n  cn: WKS-4052\n  operatingSystem: Windows 11 Enterprise\n  dNSHostName: wks-4052.northwind.example\n  managedBy: z.rasmussen\n  whenCreated: 2024-03-03T11:50:25.554Z\n  userAccountControl: 4096\n  primaryGroupID: 515\n  description: IT Automation - Chicago HQ",
+          "crowdstrike.host\n  device_id: 73bae5cf516743800b96194425d84265\n  hostname: WKS-4052\n  platform_name: Windows\n  os_version: Windows 11 Enterprise\n  agent_version: 7.14.18110.0\n  first_seen: 2024-03-03T11:50:25.554Z\n  last_seen: 2026-08-21T19:22:15.000Z\n  status: normal\n  product_type_desc: Workstation\n  machine_domain: northwind.example\n  site_name: Chicago HQ\n  tags: FalconGroupingTags/Tier-2, FalconGroupingTags/Endpoint, FalconGroupingTags/ITAutomation",
+          "intune.managed_app\n  id: 29d12673-3b7b-46ed-8cc5-db508fe81553\n  displayName: Zoom Workplace\n  publisher: Zoom Communications\n  version: 6.1.11\n  installState: failed\n  deviceName: WKS-4052\n  lastSyncDateTime: 2026-08-04T16:45:32.000Z",
+          "intune.managed_app\n  id: 3a12036f-058e-4860-84da-976b82caac25\n  displayName: Tableau Desktop\n  publisher: Salesforce\n  version: 2026.1.2\n  installState: installed\n  deviceName: WKS-4052\n  lastSyncDateTime: 2026-08-12T06:10:07.000Z",
+          "intune.managed_app\n  id: e9dcc397-e57f-4e6d-8560-b6ba3658ab64\n  displayName: AutoCAD LT\n  publisher: Autodesk\n  version: 2026.1\n  installState: installed\n  deviceName: WKS-4052\n  lastSyncDateTime: 2026-08-31T03:09:12.000Z",
+          "intune.managed_app\n  id: 62abc0bb-a401-4d70-8c47-cccf2ce37d2e\n  displayName: Splunk Universal Forwarder\n  publisher: Splunk Inc.\n  version: 9.1.2\n  installState: installed\n  deviceName: WKS-4052\n  lastSyncDateTime: 2026-08-26T07:18:47.000Z",
+          "tanium.scheduled_task\n  computer_name: WKS-4052\n  task_name: WindowsUpdateAudit\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-08T13:01:46.000Z\n  action_path: C:\\Windows\\System32\\usoclient.exe\n  run_as_user: SYSTEM\n  first_inventoried: 2024-03-19T13:50:56.993Z",
+          "okta.user\n  id: 00u7ifv8z6k2q4o98l7o\n  status: ACTIVE\n  created: 2020-10-01T12:23:21.348Z\n  activated: 2020-10-01T15:32:21.348Z\n  profile.login: z.rasmussen@northwind.example\n  profile.email: z.rasmussen@northwind.example\n  profile.firstName: Zola\n  profile.lastName: Rasmussen\n  profile.department: IT Automation\n  profile.manager: b.haddad\n  profile.employeeNumber: E10009\n  profile.userType: Employee",
+          "activedirectory.user\n  distinguishedName: CN=Zola Rasmussen,OU=IT Automation,DC=northwind,DC=example\n  sAMAccountName: z.rasmussen\n  userPrincipalName: z.rasmussen@northwind.example\n  displayName: Zola Rasmussen\n  department: IT Automation\n  manager: b.haddad\n  whenCreated: 2020-10-01T12:23:21.348Z\n  userAccountControl: 512\n  logonWorkstations: \n  description: ",
+          "okta.factor\n  id: fa7c13a0fb2737070828\n  factorType: push\n  provider: OKTA\n  status: ACTIVE\n  created: 2020-10-07T15:29:31.028Z\n  lastUpdated: 2022-03-20T15:29:31.028Z\n  profile.credentialId: z.rasmussen@northwind.example\n  profile.deviceType: SmartPhone_IPhone",
+          "servicenow.cmdb_ci\n  sys_id: 73bae5cf516743800b96194425d84265\n  name: WKS-4052\n  sys_class_name: cmdb_ci_computer\n  environment: Development\n  business_criticality: 4 - not critical\n  operational_status: Operational\n  install_status: Installed\n  support_group: Service Desk\n  managed_by: z.rasmussen\n  location: Chicago HQ\n  short_description: Assigned end-user workstation",
+          "servicenow.change_request\n  number: CHG0044023\n  type: normal\n  state: Scheduled\n  risk: Moderate\n  category: Software\n  assignment_group: IT Automation\n  requested_by: z.rasmussen\n  cmdb_ci: WKS-4052\n  planned_start_date: 2026-08-08 19:00:00\n  planned_end_date: 2026-08-08 20:00:00\n  approval: Approved\n  opened_at: 2026-08-06 19:00:00\n  short_description: Register COM components for legacy app on WKS-4052",
+          "servicenow.incident\n  number: INC0088011\n  state: Closed\n  category: Hardware\n  caller_id: z.rasmussen\n  assignment_group: IT Service Desk\n  opened_at: 2026-08-18 14:01:04\n  priority: 2 - High\n  short_description: Printer offline",
+          "workday.time_off\n  requestId: TO-400024\n  workerId: E10009\n  workerName: Zola Rasmussen\n  timeOffType: Vacation\n  status: Approved\n  startDate: 2026-08-28\n  endDate: 2026-09-08\n  approvedBy: b.haddad\n  approvedOn: 2026-08-24\n  workLocation: ",
+          "okta.system_log\n  uuid: c8994677-0135-4e8e-8426-e11ef01ac316\n  published: 2026-08-30T17:31:04.531Z\n  eventType: user.session.start\n  severity: INFO\n  actor.alternateId: z.rasmussen@northwind.example\n  actor.type: User\n  client.ipAddress: 198.51.100.57\n  client.geographicalContext.city: Chicago\n  client.zone: CorporateNetwork\n  outcome.result: SUCCESS\n  authenticationContext.authenticationStep: 0\n  securityContext.isProxy: false",
+          "lenel.badge_event\n  eventId: 100000269\n  timestamp: 2026-08-30T09:43:39.000Z\n  badgeId: 180375\n  cardholderName: Zola Rasmussen\n  readerName: Chicago HQ - Turnstile 3\n  readerZone: Lobby\n  site: Chicago HQ\n  direction: In\n  result: Granted"
+        ]
+      }
+    },
+    {
+      "alert": "IDP-5866 | Windows Remote Management\nasset: APP-PROD-30    principal: b.farkas    observed: 2026-08-29 02:34 UTC\nevents correlated: 3009\n\nfile: C:\\Windows\\System32\\svchost.exe -k NetworkService -p -s WinRM\nsource events: 113",
+      "context": {
+        "asset": {
+          "environment": "prod",
+          "tier": 1,
+          "type": "Server"
+        },
+        "records": [
+          "activedirectory.computer\n  distinguishedName: CN=APP-PROD-30,OU=Servers,DC=northwind,DC=example\n  cn: APP-PROD-30\n  operatingSystem: Windows Server 2022\n  dNSHostName: app-prod-30.northwind.example\n  managedBy: \n  whenCreated: 2023-08-07T17:18:58.315Z\n  userAccountControl: 4096\n  primaryGroupID: 515\n  description: IT Automation - Singapore",
+          "crowdstrike.host\n  device_id: 2ac651e6c3979ea22273ee05ed360796\n  hostname: APP-PROD-30\n  platform_name: Windows\n  os_version: Windows Server 2022\n  agent_version: 7.14.18110.0\n  first_seen: 2023-08-07T17:18:58.315Z\n  last_seen: 2026-08-03T09:08:06.000Z\n  status: normal\n  product_type_desc: Server\n  machine_domain: northwind.example\n  site_name: Singapore\n  tags: FalconGroupingTags/Tier-1, FalconGroupingTags/Production, FalconGroupingTags/ITAutomation",
+          "intune.managed_app\n  id: eececdc3-eb83-4b6f-8e43-771920af29f1\n  displayName: AutoCAD LT\n  publisher: Autodesk\n  version: 2026.1\n  installState: installed\n  deviceName: APP-PROD-30\n  lastSyncDateTime: 2026-08-31T05:44:57.000Z",
+          "intune.managed_app\n  id: f55da35f-a35c-4ee3-88c8-ec8475465ea4\n  displayName: Splunk Universal Forwarder\n  publisher: Splunk Inc.\n  version: 9.1.2\n  installState: failed\n  deviceName: APP-PROD-30\n  lastSyncDateTime: 2026-08-07T07:58:18.000Z",
+          "tanium.scheduled_task\n  computer_name: APP-PROD-30\n  task_name: WindowsUpdateAudit\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-09T02:45:13.000Z\n  action_path: C:\\Windows\\System32\\usoclient.exe\n  run_as_user: SYSTEM\n  first_inventoried: 2023-08-21T15:38:59.734Z",
+          "tanium.scheduled_task\n  computer_name: APP-PROD-30\n  task_name: NorthvaultDedupPass\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-26T11:28:48.000Z\n  action_path: C:\\ProgramData\\Northvault\\nv-agent.exe\n  run_as_user: SVC-BACKUP\n  first_inventoried: 2023-08-09T11:36:30.846Z",
+          "okta.user\n  id: 00ummthz0ow8xzdr3unz\n  status: ACTIVE\n  created: 2020-05-16T16:14:25.526Z\n  activated: 2020-05-17T14:49:25.526Z\n  profile.login: b.farkas@northwind.example\n  profile.email: b.farkas@northwind.example\n  profile.firstName: Bram\n  profile.lastName: Farkas\n  profile.department: IT Automation\n  profile.manager: b.haddad\n  profile.employeeNumber: E10003\n  profile.userType: Employee",
+          "activedirectory.user\n  distinguishedName: CN=Bram Farkas,OU=IT Automation,DC=northwind,DC=example\n  sAMAccountName: b.farkas\n  userPrincipalName: b.farkas@northwind.example\n  displayName: Bram Farkas\n  department: IT Automation\n  manager: b.haddad\n  whenCreated: 2020-05-16T16:14:25.526Z\n  userAccountControl: 512\n  logonWorkstations: \n  description: ",
+          "okta.factor\n  id: 27dc4c86f12799ac7a95\n  factorType: webauthn\n  provider: OKTA\n  status: ACTIVE\n  created: 2025-11-20T14:11:54.488Z\n  lastUpdated: 2025-11-20T14:11:54.488Z\n  profile.credentialId: b.farkas@northwind.example\n  profile.deviceType: SmartPhone_IPhone",
+          "servicenow.cmdb_ci\n  sys_id: 2ac651e6c3979ea22273ee05ed360796\n  name: APP-PROD-30\n  sys_class_name: cmdb_ci_win_server\n  environment: Production\n  business_criticality: 2 - somewhat critical\n  operational_status: Operational\n  install_status: Installed\n  support_group: Application Support\n  managed_by: \n  location: Singapore\n  short_description: Line-of-business application server - one department",
+          "servicenow.incident\n  number: INC0088019\n  state: Closed\n  category: Access\n  caller_id: b.farkas\n  assignment_group: IT Service Desk\n  opened_at: 2026-08-26 09:57:32\n  priority: 4 - Low\n  short_description: VPN disconnects intermittently",
+          "lenel.badge_event\n  eventId: 100000766\n  timestamp: 2026-08-29T09:27:00.000Z\n  badgeId: 309546\n  cardholderName: Bram Farkas\n  readerName: Singapore - Turnstile 1\n  readerZone: Lobby\n  site: Singapore\n  direction: In\n  result: Granted",
+          "okta.system_log\n  uuid: f1bc1ab3-e5cb-4f45-896d-6df88c2cf4e6\n  published: 2026-08-29T08:53:38.190Z\n  eventType: user.session.start\n  severity: INFO\n  actor.alternateId: b.farkas@northwind.example\n  actor.type: User\n  client.ipAddress: 198.51.100.6\n  client.geographicalContext.city: Singapore\n  client.zone: CorporateNetwork\n  outcome.result: SUCCESS\n  authenticationContext.authenticationStep: 0\n  securityContext.isProxy: false"
+        ]
+      }
+    },
+    {
+      "alert": "IDP-1171 | LSASS Memory\nasset: APP-PROD-75    principal: o.rasmussen    observed: 2026-08-18 12:25 UTC\nevents correlated: 2362\n\nprocess: cmd.exe /c powershell.exe\nprocess: lsass.exe\nprocess: rundll32.exe\nfile: C:\\Windows\\System32\\comsvcs.dll",
+      "context": {
+        "asset": {
+          "environment": "prod",
+          "tier": 1,
+          "type": "Server"
+        },
+        "records": [
+          "activedirectory.computer\n  distinguishedName: CN=APP-PROD-75,OU=Servers,DC=northwind,DC=example\n  cn: APP-PROD-75\n  operatingSystem: Windows Server 2022\n  dNSHostName: app-prod-75.northwind.example\n  managedBy: \n  whenCreated: 2025-09-21T16:03:13.323Z\n  userAccountControl: 4096\n  primaryGroupID: 515\n  description: Sales - Chicago HQ",
+          "crowdstrike.host\n  device_id: 28785ed04944d1ef1c39de3dd08198a0\n  hostname: APP-PROD-75\n  platform_name: Windows\n  os_version: Windows Server 2022\n  agent_version: 7.14.18110.0\n  first_seen: 2025-09-21T16:03:13.323Z\n  last_seen: 2026-08-26T09:21:53.000Z\n  status: normal\n  product_type_desc: Server\n  machine_domain: northwind.example\n  site_name: Chicago HQ\n  tags: FalconGroupingTags/Tier-1, FalconGroupingTags/Production, FalconGroupingTags/Sales",
+          "intune.managed_app\n  id: 4c2da193-bd1a-4e8f-8159-8c2e3a23aa74\n  displayName: Northvault Backup Agent\n  publisher: Northvault Data\n  version: 3.2.0-rc4\n  installState: installed\n  deviceName: APP-PROD-75\n  lastSyncDateTime: 2026-08-28T17:06:14.000Z",
+          "intune.managed_app\n  id: 3086e5b3-f2f2-4c17-8080-8bc8a19cf9e0\n  displayName: Tableau Desktop\n  publisher: Salesforce\n  version: 2026.1.2\n  installState: installed\n  deviceName: APP-PROD-75\n  lastSyncDateTime: 2026-08-15T18:18:03.000Z",
+          "intune.managed_app\n  id: e66ee4ea-fd5d-4503-803a-c45ac0416206\n  displayName: PowerShell 7\n  publisher: Microsoft\n  version: 7.4.6\n  installState: failed\n  deviceName: APP-PROD-75\n  lastSyncDateTime: 2026-08-20T17:30:00.000Z",
+          "tanium.scheduled_task\n  computer_name: APP-PROD-75\n  task_name: WindowsUpdateAudit\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-03T10:14:26.000Z\n  action_path: C:\\Windows\\System32\\usoclient.exe\n  run_as_user: SYSTEM\n  first_inventoried: 2025-10-13T15:23:52.711Z",
+          "okta.user\n  id: 00u7th62i005q72cfqa7\n  status: ACTIVE\n  created: 2022-05-02T12:36:34.947Z\n  activated: 2022-05-03T03:51:34.947Z\n  profile.login: o.rasmussen@northwind.example\n  profile.email: o.rasmussen@northwind.example\n  profile.firstName: Otto\n  profile.lastName: Rasmussen\n  profile.department: IT Automation\n  profile.manager: b.haddad\n  profile.employeeNumber: E10010\n  profile.userType: Contractor",
+          "activedirectory.user\n  distinguishedName: CN=Otto Rasmussen,OU=IT Automation,DC=northwind,DC=example\n  sAMAccountName: o.rasmussen\n  userPrincipalName: o.rasmussen@northwind.example\n  displayName: Otto Rasmussen\n  department: IT Automation\n  manager: b.haddad\n  whenCreated: 2022-05-02T12:36:34.947Z\n  userAccountControl: 512\n  logonWorkstations: \n  description: ",
+          "okta.factor\n  id: d1f31c87d3c81faed7f3\n  factorType: push\n  provider: OKTA\n  status: ACTIVE\n  created: 2026-08-18T11:45:13.426Z\n  lastUpdated: 2026-08-18T11:45:13.426Z\n  profile.credentialId: o.rasmussen@northwind.example\n  profile.deviceType: SmartPhone_IPhone",
+          "servicenow.cmdb_ci\n  sys_id: 28785ed04944d1ef1c39de3dd08198a0\n  name: APP-PROD-75\n  sys_class_name: cmdb_ci_win_server\n  environment: Production\n  business_criticality: 2 - somewhat critical\n  operational_status: Operational\n  install_status: Installed\n  support_group: Application Support\n  managed_by: \n  location: Chicago HQ\n  short_description: Line-of-business application server - one department",
+          "servicenow.incident\n  number: INC0088013\n  state: Closed\n  category: Hardware\n  caller_id: o.rasmussen\n  assignment_group: IT Service Desk\n  opened_at: 2026-08-19 16:41:22\n  priority: 4 - Low\n  short_description: Printer offline",
+          "servicenow.incident\n  number: INC0088017\n  state: In Progress\n  category: Network\n  caller_id: o.rasmussen\n  assignment_group: IT Service Desk\n  opened_at: 2026-08-25 11:07:52\n  priority: 2 - High\n  short_description: Printer offline",
+          "servicenow.incident\n  number: INC0088022\n  state: Closed\n  category: Software\n  caller_id: o.rasmussen\n  assignment_group: IT Service Desk\n  opened_at: 2026-08-28 10:18:22\n  priority: 4 - Low\n  short_description: VPN disconnects intermittently",
+          "workday.time_off\n  requestId: TO-400008\n  workerId: E10010\n  workerName: Otto Rasmussen\n  timeOffType: Remote Work\n  status: Approved\n  startDate: 2026-08-10\n  endDate: 2026-08-20\n  approvedBy: b.haddad\n  approvedOn: 2026-08-06\n  workLocation: Lisbon",
+          "workday.time_off\n  requestId: TO-400015\n  workerId: E10010\n  workerName: Otto Rasmussen\n  timeOffType: Vacation\n  status: Approved\n  startDate: 2026-08-13\n  endDate: 2026-08-29\n  approvedBy: b.haddad\n  approvedOn: 2026-08-12\n  workLocation: "
+        ]
+      }
+    },
+    {
+      "alert": "EDR-5935 | DLL\nasset: DC-NW-01    principal: m.wojcik    observed: 2026-08-17 09:16 UTC\nevents correlated: 1465\n\nprocess: cmd.exe\nprocess: cmd.exe /c copy %windir%\\System32\\amsi.dll %APPDATA%\\amsi.dll & ren %APPDATA%\\amsi.dll WinAppXRT.dll ...\nprocess: powershell.exe\nfile: C:\\Windows\\System32\\\nfile: C:\\Windows\\System32\\WinAppXRT.dll\nfile: C:\\Windows\\System32\\config\\systemprofile\\AppData\\Roaming\\amsi.dll\nregistry: HKEY_CURRENT_USER\\Environment\nregistry: HKU\\.DEFAULT\\Environment\\APPX_PROCESS",
+      "context": {
+        "asset": {
+          "environment": "prod",
+          "tier": 0,
+          "type": "Server"
+        },
+        "records": [
+          "activedirectory.computer\n  distinguishedName: CN=DC-NW-01,OU=Domain Controllers,DC=northwind,DC=example\n  cn: DC-NW-01\n  operatingSystem: Windows Server 2022\n  dNSHostName: dc-nw-01.northwind.example\n  managedBy: \n  whenCreated: 2022-11-14T17:11:28.366Z\n  userAccountControl: 532480\n  primaryGroupID: 516\n  description: IT Infrastructure - Rotterdam",
+          "crowdstrike.host\n  device_id: c27e4bb2edc82ee480bd7beae047378b\n  hostname: DC-NW-01\n  platform_name: Windows\n  os_version: Windows Server 2022\n  agent_version: 7.14.18110.0\n  first_seen: 2022-11-14T17:11:28.366Z\n  last_seen: 2026-08-18T09:55:21.000Z\n  status: normal\n  product_type_desc: Domain Controller\n  machine_domain: northwind.example\n  site_name: Rotterdam\n  tags: FalconGroupingTags/Tier-0, FalconGroupingTags/DomainController, FalconGroupingTags/ITInfrastructure",
+          "intune.managed_app\n  id: 2e7c1860-554b-4cc1-8e87-34d77addd68a\n  displayName: PowerShell 7\n  publisher: Microsoft\n  version: 7.4.6\n  installState: installed\n  deviceName: DC-NW-01\n  lastSyncDateTime: 2026-08-29T11:11:25.000Z",
+          "intune.managed_app\n  id: d51fa4a3-364f-4568-873f-acfce3c1ebad\n  displayName: Tableau Desktop\n  publisher: Salesforce\n  version: 2026.1.2\n  installState: installed\n  deviceName: DC-NW-01\n  lastSyncDateTime: 2026-08-30T13:32:54.000Z",
+          "intune.managed_app\n  id: b879b3d7-c31e-4839-8e07-b8bacf5d17e5\n  displayName: Splunk Universal Forwarder\n  publisher: Splunk Inc.\n  version: 9.1.2\n  installState: installed\n  deviceName: DC-NW-01\n  lastSyncDateTime: 2026-08-11T01:42:43.000Z",
+          "intune.managed_app\n  id: 24dbe399-0812-4ddd-8f4b-a76777e667dd\n  displayName: AutoCAD LT\n  publisher: Autodesk\n  version: 2026.1\n  installState: installed\n  deviceName: DC-NW-01\n  lastSyncDateTime: 2026-08-10T23:47:19.000Z",
+          "tanium.scheduled_task\n  computer_name: DC-NW-01\n  task_name: NorthvaultDedupPass\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-05T14:36:48.000Z\n  action_path: C:\\ProgramData\\Northvault\\nv-agent.exe\n  run_as_user: SVC-BACKUP\n  first_inventoried: 2022-11-30T08:53:22.122Z",
+          "tanium.scheduled_task\n  computer_name: DC-NW-01\n  task_name: SplunkForwarderHealth\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-29T23:12:44.000Z\n  action_path: C:\\Program Files\\SplunkUniversalForwarder\\bin\\splunkd.exe\n  run_as_user: SYSTEM\n  first_inventoried: 2022-12-07T08:08:09.119Z",
+          "tanium.scheduled_task\n  computer_name: DC-NW-01\n  task_name: WindowsUpdateAudit\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-03T01:25:17.000Z\n  action_path: C:\\Windows\\System32\\usoclient.exe\n  run_as_user: SYSTEM\n  first_inventoried: 2022-11-16T14:53:56.933Z",
+          "okta.user\n  id: 00usyt0plagv1q13m888\n  status: ACTIVE\n  created: 2021-06-01T14:35:16.554Z\n  activated: 2021-06-02T17:55:16.554Z\n  profile.login: m.wojcik@northwind.example\n  profile.email: m.wojcik@northwind.example\n  profile.firstName: Marcus\n  profile.lastName: Wojcik\n  profile.department: IT Automation\n  profile.manager: b.haddad\n  profile.employeeNumber: E10015\n  profile.userType: Employee",
+          "activedirectory.user\n  distinguishedName: CN=Marcus Wojcik,OU=IT Automation,DC=northwind,DC=example\n  sAMAccountName: m.wojcik\n  userPrincipalName: m.wojcik@northwind.example\n  displayName: Marcus Wojcik\n  department: IT Automation\n  manager: b.haddad\n  whenCreated: 2021-06-01T14:35:16.554Z\n  userAccountControl: 512\n  logonWorkstations: \n  description: ",
+          "okta.factor\n  id: 169cce084471e3400e43\n  factorType: push\n  provider: OKTA\n  status: ACTIVE\n  created: 2021-06-26T09:13:37.981Z\n  lastUpdated: 2022-12-12T09:13:37.981Z\n  profile.credentialId: m.wojcik@northwind.example\n  profile.deviceType: SmartPhone_IPhone",
+          "servicenow.cmdb_ci\n  sys_id: c27e4bb2edc82ee480bd7beae047378b\n  name: DC-NW-01\n  sys_class_name: cmdb_ci_win_server\n  environment: Production\n  business_criticality: 1 - most critical\n  operational_status: Operational\n  install_status: Installed\n  support_group: Directory Services\n  managed_by: \n  location: Rotterdam\n  short_description: Active Directory domain controller - authentication and Group Policy for all sites",
+          "servicenow.incident\n  number: INC0088006\n  state: Closed\n  category: Network\n  caller_id: m.wojcik\n  assignment_group: IT Service Desk\n  opened_at: 2026-08-10 17:29:38\n  priority: 2 - High\n  short_description: Password reset request",
+          "servicenow.incident\n  number: INC0088014\n  state: Resolved\n  category: Access\n  caller_id: m.wojcik\n  assignment_group: IT Service Desk\n  opened_at: 2026-08-20 16:29:18\n  priority: 4 - Low\n  short_description: Laptop will not charge",
+          "okta.system_log\n  uuid: 0588e9d4-0686-4510-8f56-529459bdab61\n  published: 2026-08-17T12:26:45.639Z\n  eventType: user.session.start\n  severity: INFO\n  actor.alternateId: m.wojcik@northwind.example\n  actor.type: User\n  client.ipAddress: 198.51.100.61\n  client.geographicalContext.city: Chicago\n  client.zone: CorporateNetwork\n  outcome.result: SUCCESS\n  authenticationContext.authenticationStep: 0\n  securityContext.isProxy: false",
+          "crowdstrike.host\n  device_id: 154074e0ab012ad4a70b39da79e4e8af\n  hostname: APP-PROD-45\n  platform_name: Windows\n  os_version: Windows Server 2022\n  agent_version: 7.14.18110.0\n  first_seen: 2026-03-28T12:29:43.467Z\n  last_seen: 2026-08-21T11:42:38.680Z\n  status: containment_pending\n  product_type_desc: Server\n  machine_domain: northwind.example\n  site_name: Rotterdam\n  tags: FalconGroupingTags/Tier-1, FalconGroupingTags/Production, FalconGroupingTags/SecurityOperations"
+        ]
+      }
+    },
+    {
+      "alert": "EDR-7845 | Python Startup Hooks\nasset: WKS-4044    principal: e.dijkstra    observed: 2026-08-18 02:26 UTC\nevents correlated: 1518\n\nprocess: calc.exe\nprocess: cmd.exe\nprocess: powershell.exe\nfile: C:\\Program Files\\Python312\\python.exe\nfile: C:\\Windows\\System32\\config\\systemprofile\\AppData\\Roaming\\Python\\\nfile: C:\\Windows\\System32\\config\\systemprofile\\AppData\\Roaming\\Python\\Python312\\site-packages\\",
+      "context": {
+        "asset": {
+          "environment": "dev",
+          "tier": 2,
+          "type": "Workstation"
+        },
+        "records": [
+          "activedirectory.computer\n  distinguishedName: CN=WKS-4044,OU=Workstations,DC=northwind,DC=example\n  cn: WKS-4044\n  operatingSystem: Windows 11 Enterprise\n  dNSHostName: wks-4044.northwind.example\n  managedBy: d.jankovic\n  whenCreated: 2024-06-06T11:06:00.955Z\n  userAccountControl: 4096\n  primaryGroupID: 515\n  description: Storage Engineering - Chicago HQ",
+          "crowdstrike.host\n  device_id: 8373dc43e6568bab84078f0a056872db\n  hostname: WKS-4044\n  platform_name: Windows\n  os_version: Windows 11 Enterprise\n  agent_version: 7.14.18110.0\n  first_seen: 2024-06-06T11:06:00.955Z\n  last_seen: 2026-08-13T10:05:27.000Z\n  status: normal\n  product_type_desc: Workstation\n  machine_domain: northwind.example\n  site_name: Chicago HQ\n  tags: FalconGroupingTags/Tier-2, FalconGroupingTags/Endpoint, FalconGroupingTags/StorageEngineering",
+          "intune.managed_app\n  id: fd87a666-9b11-4bd5-800d-550f05f12a60\n  displayName: Northvault Backup Agent\n  publisher: Northvault Data\n  version: 3.2.0-rc4\n  installState: failed\n  deviceName: WKS-4044\n  lastSyncDateTime: 2026-08-23T21:36:12.000Z",
+          "intune.managed_app\n  id: 034b5f1e-7a57-425c-8e3f-38e330926186\n  displayName: PowerShell 7\n  publisher: Microsoft\n  version: 7.4.6\n  installState: installed\n  deviceName: WKS-4044\n  lastSyncDateTime: 2026-08-22T22:46:39.000Z",
+          "tanium.scheduled_task\n  computer_name: WKS-4044\n  task_name: SplunkForwarderHealth\n  task_path: \\Northwind\\\n  author: northwind.example\n  enabled: true\n  last_run_time: 2026-08-28T18:33:04.000Z\n  action_path: C:\\Program Files\\SplunkUniversalForwarder\\bin\\splunkd.exe\n  run_as_user: SYSTEM\n  first_inventoried: 2024-06-15T09:13:25.146Z",
+          "okta.user\n  id: 00uhitkvu71jolqcg6gw\n  status: ACTIVE\n  created: 2024-08-20T12:33:10.672Z\n  activated: 2024-08-20T21:22:10.672Z\n  profile.login: e.dijkstra@northwind.example\n  profile.email: e.dijkstra@northwind.example\n  profile.firstName: Eero\n  profile.lastName: Dijkstra\n  profile.department: Storage Engineering\n  profile.manager: s.haddad\n  profile.employeeNumber: E10005\n  profile.userType: Employee",
+          "activedirectory.user\n  distinguishedName: CN=Eero Dijkstra,OU=Storage Engineering,DC=northwind,DC=example\n  sAMAccountName: e.dijkstra\n  userPrincipalName: e.dijkstra@northwind.example\n  displayName: Eero Dijkstra\n  department: Storage Engineering\n  manager: s.haddad\n  whenCreated: 2024-08-20T12:33:10.672Z\n  userAccountControl: 512\n  logonWorkstations: \n  description: ",
+          "okta.factor\n  id: f3b23155bf83f093c147\n  factorType: push\n  provider: OKTA\n  status: ACTIVE\n  created: 2024-09-17T15:55:35.241Z\n  lastUpdated: 2024-09-17T15:55:35.241Z\n  profile.credentialId: e.dijkstra@northwind.example\n  profile.deviceType: SmartPhone_IPhone",
+          "servicenow.cmdb_ci\n  sys_id: 8373dc43e6568bab84078f0a056872db\n  name: WKS-4044\n  sys_class_name: cmdb_ci_computer\n  environment: Development\n  business_criticality: 4 - not critical\n  operational_status: Operational\n  install_status: Installed\n  support_group: Service Desk\n  managed_by: d.jankovic\n  location: Chicago HQ\n  short_description: Assigned end-user workstation",
+          "servicenow.change_request\n  number: CHG0044111\n  type: normal\n  state: Implement\n  risk: High\n  category: Software\n  assignment_group: Sales\n  requested_by: y.nakamura\n  cmdb_ci: WKS-4044\n  planned_start_date: 2026-08-18 01:30:00\n  planned_end_date: 2026-08-18 05:30:00\n  approval: Approved\n  opened_at: 2026-08-13 01:30:00\n  short_description: Set up logon-triggered printer mapping on WKS-4044"
+        ]
+      }
+    }
+  ],
+  "questions": [
+    {
+      "type": "noul",
+      "instructions": "Given the alert and its context records, does this describe unauthorized activity, as opposed to authorized activity that a detector flagged?",
+      "criteria": {
+        "true": "Someone is doing something they were not authorized to do",
+        "false": "The activity was authorized, expected, or did not happen -- administrative work, a sanctioned tool, a test, or a detector firing on nothing"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Do the context records -- tickets, registrations, schedules, authorization excerpts -- account for the flagged activity?",
+      "criteria": {
+        "true": "A specific record covers this specific activity: the same actor, asset, or window, authorized in advance",
+        "false": "No record covers it, or the records that exist are about something adjacent. Silence is not an explanation"
+      }
+    },
+    {
+      "type": "score",
+      "instructions": "How strong is the evidence that the activity is unauthorized?",
+      "criteria": [
+        "Speculative: hedged language, or a single weak indicator",
+        "Suggestive: one concrete indicator, uncorroborated",
+        "Corroborated: independent indicators agree",
+        "Confirmed: direct proof of unauthorized activity"
+      ]
+    },
+    {
+      "type": "noul",
+      "instructions": "Have credentials been disclosed to, or captured by, someone unauthorized?",
+      "criteria": {
+        "true": "A password, key or token has been submitted to an attacker-controlled destination, or is otherwise in hands it should not be in",
+        "false": "No credential has left the control of its owner"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Is a live session or token being used by someone unauthorized right now?",
+      "criteria": {
+        "true": "An authenticated session or token is in active use by someone other than the owner",
+        "false": "Every active session belongs to the person it was issued to, or none are active"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Is malicious mail sitting in user inboxes at this moment?",
+      "criteria": {
+        "true": "A malicious message is still delivered and reachable in one or more mailboxes",
+        "false": "Nothing malicious is in any mailbox, or the incident is not about mail"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Is there a mechanism that would survive a reboot and bring the activity back?",
+      "criteria": {
+        "true": "A scheduled task, service, startup entry, key or implant placed by the attacker is still in place",
+        "false": "Nothing would restart the activity once it stopped"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Is a specific malicious process or task executing right now?",
+      "criteria": {
+        "true": "A named process, script or scheduled task is running and doing the harm described",
+        "false": "Nothing is executing; the evidence is of something that already ran or never ran"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Is data or command traffic leaving to a destination under attacker control?",
+      "criteria": {
+        "true": "An outbound channel to an attacker destination is carrying traffic now",
+        "false": "No outbound channel is open, or the destination is legitimate"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Did the attacker create or change a configuration that persists on its own?",
+      "criteria": {
+        "true": "Mailbox forwarding rules, delegations, OAuth consents, keys or policy entries were created or altered during the incident",
+        "false": "No configuration was changed, or the changes were made by their legitimate owner"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Is the activity live or imminent, rather than finished?",
+      "criteria": {
+        "true": "It is happening now, or the evidence points at an imminent next step",
+        "false": "It is finished, already remediated, or a historical record of something stopped"
+      }
+    },
+    {
+      "type": "noul",
+      "instructions": "Has this reached beyond the entity that was originally flagged?",
+      "criteria": {
+        "true": "A second host, account or mailbox is implicated, or lateral movement is underway",
+        "false": "Everything in evidence is confined to the entity that was flagged"
+      }
+    },
+    {
+      "type": "choice",
+      "instructions": "How far does this reach?",
+      "criteria": {
+        "single_entity": "One host, account or mailbox",
+        "workgroup": "A team, a distribution list, or a handful of related assets",
+        "organization_wide": "Everyone, or an asset the whole organization depends on"
+      }
+    },
+    {
+      "type": "choice",
+      "instructions": "What kind of attack does the evidence describe?",
+      "criteria": {
+        "host_compromise": "Malware, ransomware, or persistence on a host",
+        "account_takeover": "Stolen or abused credentials or sessions",
+        "mail_campaign": "Phishing or malicious mail sitting in user inboxes",
+        "exfiltration": "Data staging or outbound theft in progress"
+      }
+    }
+  ]
+}

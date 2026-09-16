@@ -1,0 +1,42 @@
+{
+  "retrieved_at": "2026-09-16T19:20:42.958997+00:00",
+  "scope": "Public viewer examples only, not the full benchmark",
+  "workflows": [
+    {
+      "workflow": "agent_trace_observability",
+      "page": "https://evals.typesafe.ai/agent_trace_observability",
+      "source": "https://evals.typesafe.ai/agent_trace_observability-cases.js?v=4a3821a2",
+      "reported_total_cases": 117,
+      "public_cases": 5,
+      "file": "typesafe-public-evals/agent_trace_observability.json",
+      "sha256": "e3625d0148f428e28b1ba9610ca1d6e38c532d9677f664e77df373fac11f9613"
+    },
+    {
+      "workflow": "security_incidents",
+      "page": "https://evals.typesafe.ai/security_incidents",
+      "source": "https://evals.typesafe.ai/security_incidents-cases.js?v=6c96b19f",
+      "reported_total_cases": 240,
+      "public_cases": 5,
+      "file": "typesafe-public-evals/security_incidents.json",
+      "sha256": "f29592bb4b0d73bfd3a80937feffce11be4ef874afd3db1d371fcc78abdb1212"
+    },
+    {
+      "workflow": "invoice_processing",
+      "page": "https://evals.typesafe.ai/invoice_processing",
+      "source": "https://evals.typesafe.ai/invoice_processing-cases.js?v=8c2f8869",
+      "reported_total_cases": 150,
+      "public_cases": 5,
+      "file": "typesafe-public-evals/invoice_processing.json",
+      "sha256": "98d473e07f1d61a25e445ec5a8a67cfc8662f350e1854da1b5f515aaaa05eee5"
+    },
+    {
+      "workflow": "customer_service",
+      "page": "https://evals.typesafe.ai/customer_service",
+      "source": "https://evals.typesafe.ai/customer_service-cases.js?v=066f789b",
+      "reported_total_cases": 204,
+      "public_cases": 5,
+      "file": "typesafe-public-evals/customer_service.json",
+      "sha256": "5f83668a14586c54496502f46675e612ec84d5cdfbe9c272a0b7941abe8bcd04"
+    }
+  ]
+}

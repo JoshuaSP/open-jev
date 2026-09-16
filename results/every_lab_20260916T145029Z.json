@@ -1,0 +1,3091 @@
+{
+  "model": "google/diffusiongemma-26B-A4B-it",
+  "revision": "f7f5b7f5fa82ffc52addd066915886d497f5517b",
+  "torch": "2.14.0+cu130",
+  "transformers": "5.11.0",
+  "hardware": "NVIDIA H200",
+  "setup_seconds": 56.911381343,
+  "warmup": {
+    "experiment": "code-rag",
+    "id": "auth/session.ts",
+    "steps": 1,
+    "seed": 0,
+    "actual_steps": 1,
+    "input_tokens": 312,
+    "judgments": 6,
+    "json": "{\"refresh_rotation\": true, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+    "values": {
+      "refresh_rotation": true,
+      "duplicate_payout": false,
+      "webhook_verify": false,
+      "ledger_delete": false,
+      "stable_rollout": false,
+      "queue_trace": false
+    },
+    "uncalibrated_p_true": {
+      "refresh_rotation": 0.9999781847000122,
+      "duplicate_payout": 4.994614573661238e-05,
+      "webhook_verify": 2.6136151063838042e-05,
+      "ledger_delete": 5.305448212311603e-05,
+      "stable_rollout": 9.563287676428445e-06,
+      "queue_trace": 7.919973540992942e-06
+    },
+    "reference_p_true": {
+      "refresh_rotation": 0.9,
+      "duplicate_payout": 0.03,
+      "webhook_verify": 0.01,
+      "ledger_delete": 0.02,
+      "stable_rollout": 0.02,
+      "queue_trace": 0.06
+    },
+    "labels": {
+      "refresh_rotation": true,
+      "duplicate_payout": false,
+      "webhook_verify": false,
+      "ledger_delete": false,
+      "stable_rollout": false,
+      "queue_trace": false
+    },
+    "generation_seconds": 9.049171139999999,
+    "request_seconds": 9.226575142999998,
+    "estimated_gpu_cost_usd": 0.010121552931871,
+    "prompt": "<user_text>\nexport async function rotateRefreshToken(sessionId: string, presentedToken: string) {\n  const session = await sessions.lock(sessionId);\n  if (session.refreshTokenHash !== hash(presentedToken)) throw new InvalidToken();\n  const next = randomToken();\n  await sessions.update(sessionId, {\n    refreshTokenHash: hash(next),\n    previousTokenHash: session.refreshTokenHash,\n    previousTokenExpiresAt: Date.now() + 30_000,\n  });\n  return next;\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+  },
+  "benchmark_loop_seconds": 30.641154344,
+  "remote_function_seconds": 96.779141571,
+  "records": [
+    {
+      "experiment": "code-rag",
+      "id": "auth/session.ts",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 312,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": true, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": true,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 0.9999781847000122,
+        "duplicate_payout": 4.994614573661238e-05,
+        "webhook_verify": 2.6136151063838042e-05,
+        "ledger_delete": 5.305448212311603e-05,
+        "stable_rollout": 9.563287676428445e-06,
+        "queue_trace": 7.919973540992942e-06
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.9,
+        "duplicate_payout": 0.03,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.02,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.06
+      },
+      "labels": {
+        "refresh_rotation": true,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.19770240300000808,
+      "request_seconds": 0.2073675339999994,
+      "estimated_gpu_cost_usd": 0.00022748218479799937,
+      "prompt": "<user_text>\nexport async function rotateRefreshToken(sessionId: string, presentedToken: string) {\n  const session = await sessions.lock(sessionId);\n  if (session.refreshTokenHash !== hash(presentedToken)) throw new InvalidToken();\n  const next = randomToken();\n  await sessions.update(sessionId, {\n    refreshTokenHash: hash(next),\n    previousTokenHash: session.refreshTokenHash,\n    previousTokenExpiresAt: Date.now() + 30_000,\n  });\n  return next;\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "cache/profile.ts",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 287,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 8.222596989071462e-06,
+        "duplicate_payout": 8.363836241187528e-05,
+        "webhook_verify": 4.953230472892756e-06,
+        "ledger_delete": 3.4997062812180957e-06,
+        "stable_rollout": 9.270377177017508e-07,
+        "queue_trace": 2.0317827420512913e-06
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.01,
+        "duplicate_payout": 0.01,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.03,
+        "queue_trace": 0.04
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 2.121274349999993,
+      "request_seconds": 2.1320434189999986,
+      "estimated_gpu_cost_usd": 0.0023388516306429986,
+      "prompt": "<user_text>\nexport async function readProfile(userId: string) {\n  const key = `profile:${userId}`;\n  const hit = await redis.get(key);\n  if (hit) return JSON.parse(hit);\n  const profile = await db.profiles.find(userId);\n  await redis.set(key, JSON.stringify(profile), { ex: 300 });\n  return profile;\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "db/ledger.sql",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 290,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": true, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": true,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 5.790969225927256e-06,
+        "duplicate_payout": 0.00017224540351890028,
+        "webhook_verify": 1.3566487723437604e-05,
+        "ledger_delete": 0.9984764456748962,
+        "stable_rollout": 2.131399196514394e-05,
+        "queue_trace": 1.3845778994436841e-05
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0,
+        "duplicate_payout": 0.03,
+        "webhook_verify": 0,
+        "ledger_delete": 0.98,
+        "stable_rollout": 0.01,
+        "queue_trace": 0.03
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": true,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 1.5737679060000005,
+      "request_seconds": 1.5829553389999944,
+      "estimated_gpu_cost_usd": 0.001736502006882994,
+      "prompt": "<user_text>\nCREATE TABLE ledger_entries (\n  id UUID PRIMARY KEY,\n  account_id UUID NOT NULL,\n  amount_cents BIGINT NOT NULL,\n  reversal_of UUID REFERENCES ledger_entries(id),\n  created_at TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n-- Ledger rows are immutable. Correct mistakes by inserting a reversing entry.\nREVOKE UPDATE, DELETE ON ledger_entries FROM app_user;\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "email/digest.ts",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 269,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 4.920762876281515e-06,
+        "duplicate_payout": 2.346511791984085e-05,
+        "webhook_verify": 8.99799579201499e-06,
+        "ledger_delete": 2.0164932720945217e-05,
+        "stable_rollout": 2.6405907647131244e-06,
+        "queue_trace": 3.7561646877293242e-06
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0,
+        "duplicate_payout": 0.01,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.09
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 1.253236556999994,
+      "request_seconds": 1.261453222,
+      "estimated_gpu_cost_usd": 0.0013838141845340002,
+      "prompt": "<user_text>\nexport async function sendWeeklyDigest(user: User, stories: Story[]) {\n  if (!user.preferences.weeklyDigest) return;\n  const html = renderDigest(stories.slice(0, 10));\n  await mailer.send({ to: user.email, subject: \"Your weekly digest\", html });\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "flags/rollout.ts",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 270,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": true, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": true,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 9.758220585354138e-06,
+        "duplicate_payout": 2.5897841624100693e-05,
+        "webhook_verify": 4.117182470508851e-05,
+        "ledger_delete": 7.581982936244458e-05,
+        "stable_rollout": 0.9816089272499084,
+        "queue_trace": 3.567291969375219e-06
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0,
+        "duplicate_payout": 0.04,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.94,
+        "queue_trace": 0.03
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": true,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.32265495699999747,
+      "request_seconds": 0.33201534399999844,
+      "estimated_gpu_cost_usd": 0.0003642208323679983,
+      "prompt": "<user_text>\nexport function isInRollout(flag: string, actorId: string, percentage: number) {\n  const bucket = stableHash(`${flag}:${actorId}`) % 10_000;\n  return bucket < percentage * 100;\n}\n// Stable hashing keeps an actor in the same cohort across requests and deploys.\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "observability/tracing.ts",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 263,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": true}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": true
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 5.857007636222988e-06,
+        "duplicate_payout": 5.495271580002736e-06,
+        "webhook_verify": 6.958850917726522e-06,
+        "ledger_delete": 1.2848066944570746e-05,
+        "stable_rollout": 3.974798801209545e-06,
+        "queue_trace": 0.9996503591537476
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.01,
+        "duplicate_payout": 0.03,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.03,
+        "queue_trace": 0.93
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": true
+      },
+      "generation_seconds": 0.3293116549999979,
+      "request_seconds": 0.3385924690000053,
+      "estimated_gpu_cost_usd": 0.00037143593849300584,
+      "prompt": "<user_text>\nexport function publishJob(name: string, payload: unknown) {\n  return queue.publish(name, payload, {\n    traceparent: activeSpan()?.traceparent,\n    correlationId: requestContext.correlationId,\n  });\n}\n// Workers restore both fields before starting their child span.\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "payments/reconcile.ts",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 281,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": true, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": true,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 3.1889285310171545e-05,
+        "duplicate_payout": 0.9983108043670654,
+        "webhook_verify": 5.8127341617364436e-05,
+        "ledger_delete": 0.00010501126962481067,
+        "stable_rollout": 4.5089855120750144e-05,
+        "queue_trace": 2.435536589473486e-05
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.05,
+        "duplicate_payout": 0.97,
+        "webhook_verify": 0.03,
+        "ledger_delete": 0.03,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.06
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": true,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.31662122999999553,
+      "request_seconds": 0.3250828299999995,
+      "estimated_gpu_cost_usd": 0.00035661586450999946,
+      "prompt": "<user_text>\nexport async function createPayout(request: PayoutRequest) {\n  return db.transaction(async (tx) => {\n    const existing = await tx.payouts.findByIdempotencyKey(request.idempotencyKey);\n    if (existing) return existing;\n    return tx.payouts.insert({ ...request, state: \"pending\" });\n  });\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "webhooks/stripe.ts",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 302,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": true, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": true,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 4.115039700991474e-06,
+        "duplicate_payout": 0.0005253468989394605,
+        "webhook_verify": 0.9996235370635986,
+        "ledger_delete": 9.191901881422382e-06,
+        "stable_rollout": 4.3886324419872835e-05,
+        "queue_trace": 0.0014231503009796143
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.07,
+        "duplicate_payout": 0.65,
+        "webhook_verify": 0.94,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.2
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": true,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.31879308599999945,
+      "request_seconds": 0.32802925000000016,
+      "estimated_gpu_cost_usd": 0.0003598480872500002,
+      "prompt": "<user_text>\nexport async function stripeWebhook(rawBody: Buffer, signature: string) {\n  const event = stripe.webhooks.constructEvent(rawBody, signature, env.STRIPE_SECRET);\n  if (await events.wasProcessed(event.id)) return { duplicate: true };\n  await queue.publish(\"stripe-events\", event, { retry: { attempts: 8, backoff: \"exponential\" } });\n  await events.markProcessed(event.id);\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-01",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 186,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9999966621398926,
+        "happy": 0.0011169182835146785,
+        "urgent": 0.999994158744812,
+        "churn_risk": 0.9999982118606567,
+        "billing_issue": 0.9999974966049194,
+        "needs_human": 0.9999985694885254
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.96,
+        "churn_risk": 0.75,
+        "billing_issue": 0.99,
+        "needs_human": 0.91
+      },
+      "labels": null,
+      "generation_seconds": 0.3598527130000093,
+      "request_seconds": 0.3669532380000078,
+      "estimated_gpu_cost_usd": 0.0004025477020860086,
+      "prompt": "<user_text>\nCUSTOMER: Maple Labs\nMESSAGE: I was charged three times after the checkout page froze. This is the second billing problem this month. Fix it today or we are cancelling.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-02",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 181,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 5.2422557928366587e-05,
+        "happy": 0.9998998641967773,
+        "urgent": 4.641549094230868e-05,
+        "churn_risk": 6.990050314925611e-05,
+        "billing_issue": 7.492698932765052e-05,
+        "needs_human": 0.022374922409653664
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.42,
+        "churn_risk": 0.02,
+        "billing_issue": 0.01,
+        "needs_human": 0.3
+      },
+      "labels": null,
+      "generation_seconds": 0.3202880119999918,
+      "request_seconds": 0.32742059800000334,
+      "estimated_gpu_cost_usd": 0.0003591803960060037,
+      "prompt": "<user_text>\nCUSTOMER: Harbor Studio\nMESSAGE: Your support team solved our migration problem in twenty minutes. Please pass along our thanks\u2014everything is working perfectly now.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-03",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 185,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9999701976776123,
+        "happy": 0.002164358040317893,
+        "urgent": 0.999553382396698,
+        "churn_risk": 0.46061015129089355,
+        "billing_issue": 0.00013510325516108423,
+        "needs_human": 0.9999816417694092
+      },
+      "reference_p_true": {
+        "angry": 0.94,
+        "happy": 0,
+        "urgent": 0.98,
+        "churn_risk": 0.53,
+        "billing_issue": 0.01,
+        "needs_human": 0.95
+      },
+      "labels": null,
+      "generation_seconds": 0.3279870719999991,
+      "request_seconds": 0.33565684699999565,
+      "estimated_gpu_cost_usd": 0.00036821556115899527,
+      "prompt": "<user_text>\nCUSTOMER: Northstar Legal\nMESSAGE: We cannot log in and have a client filing due in two hours. Password reset emails never arrive. We need a person immediately.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-04",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 178,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 4.841378904529847e-05,
+        "happy": 4.0231505408883095e-05,
+        "urgent": 0.0002205186610808596,
+        "churn_risk": 2.2879825337440707e-05,
+        "billing_issue": 6.389417831087485e-05,
+        "needs_human": 0.012095826677978039
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.23,
+        "urgent": 0.08,
+        "churn_risk": 0.05,
+        "billing_issue": 0.01,
+        "needs_human": 0.41
+      },
+      "labels": null,
+      "generation_seconds": 0.3248747300000048,
+      "request_seconds": 0.33265497700000424,
+      "estimated_gpu_cost_usd": 0.0003649225097690047,
+      "prompt": "<user_text>\nCUSTOMER: Cedar School\nMESSAGE: Could you point me to instructions for exporting student reports? No rush; we are planning next semester.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-05",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 184,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9999940395355225,
+        "happy": 9.567174856783822e-05,
+        "urgent": 0.9998825788497925,
+        "churn_risk": 0.9990726709365845,
+        "billing_issue": 0.00024395002401433885,
+        "needs_human": 0.9999982118606567
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.94,
+        "churn_risk": 0.63,
+        "billing_issue": 0.03,
+        "needs_human": 0.93
+      },
+      "labels": null,
+      "generation_seconds": 0.3272483610000023,
+      "request_seconds": 0.33465513200000885,
+      "estimated_gpu_cost_usd": 0.00036711667980400976,
+      "prompt": "<user_text>\nCUSTOMER: Orbit Health\nMESSAGE: I have explained this four times and keep receiving the same canned response. Our entire team is locked out. I want this escalated.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-06",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 177,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 9.009033237816766e-05,
+        "happy": 0.9998071789741516,
+        "urgent": 6.683302672172431e-06,
+        "churn_risk": 2.72765064437408e-05,
+        "billing_issue": 9.94223137240624e-06,
+        "needs_human": 6.824763113399968e-05
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.38,
+        "churn_risk": 0.02,
+        "billing_issue": 0.01,
+        "needs_human": 0.2
+      },
+      "labels": null,
+      "generation_seconds": 0.3214093260000084,
+      "request_seconds": 0.32914908299999013,
+      "estimated_gpu_cost_usd": 0.0003610765440509892,
+      "prompt": "<user_text>\nCUSTOMER: Juniper Books\nMESSAGE: The new search is fantastic. It found a title our staff had been hunting for all morning.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-07",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 179,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.0018529905937612057,
+        "happy": 0.00026390980929136276,
+        "urgent": 0.9987055063247681,
+        "churn_risk": 0.00029869997524656355,
+        "billing_issue": 0.9999409914016724,
+        "needs_human": 0.999466598033905
+      },
+      "reference_p_true": {
+        "angry": 0.5,
+        "happy": 0.01,
+        "urgent": 0.96,
+        "churn_risk": 0.12,
+        "billing_issue": 0.92,
+        "needs_human": 0.78
+      },
+      "labels": null,
+      "generation_seconds": 0.3295519779999978,
+      "request_seconds": 0.33736984700000505,
+      "estimated_gpu_cost_usd": 0.00037009472215900557,
+      "prompt": "<user_text>\nCUSTOMER: Beacon Finance\nMESSAGE: The invoice lists the wrong legal entity and procurement will reject it tomorrow morning. Can someone reissue it today?\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-08",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 178,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 3.7821493606315926e-05,
+        "happy": 3.252827445976436e-05,
+        "urgent": 3.1483803468290716e-05,
+        "churn_risk": 4.7516073209408205e-06,
+        "billing_issue": 6.443768143071793e-06,
+        "needs_human": 0.00023438977950718254
+      },
+      "reference_p_true": {
+        "angry": 0.03,
+        "happy": 0.17,
+        "urgent": 0.23,
+        "churn_risk": 0.03,
+        "billing_issue": 0.01,
+        "needs_human": 0.25
+      },
+      "labels": null,
+      "generation_seconds": 0.19654438199999902,
+      "request_seconds": 0.20443317199999456,
+      "estimated_gpu_cost_usd": 0.00022426318968399406,
+      "prompt": "<user_text>\nCUSTOMER: Pinecone AI\nMESSAGE: Is dark mode on the roadmap? It would be nice, but it is not blocking us.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-09",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 180,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9999897480010986,
+        "happy": 0.00018093353719450533,
+        "urgent": 0.9998006224632263,
+        "churn_risk": 0.9998306035995483,
+        "billing_issue": 0.04454551264643669,
+        "needs_human": 0.9999963045120239
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.93,
+        "churn_risk": 0.53,
+        "billing_issue": 0.1,
+        "needs_human": 0.86
+      },
+      "labels": null,
+      "generation_seconds": 1.6340139379999954,
+      "request_seconds": 1.6418666380000104,
+      "estimated_gpu_cost_usd": 0.0018011277018860116,
+      "prompt": "<user_text>\nCUSTOMER: Copper Works\nMESSAGE: We upgraded yesterday and none of the promised seats appeared. Sales said it would be instant. This is unacceptable.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-10",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 173,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 3.518900848575868e-05,
+        "happy": 0.9994679093360901,
+        "urgent": 0.00014256977010518312,
+        "churn_risk": 0.00016906655218917876,
+        "billing_issue": 0.13622011244297028,
+        "needs_human": 0.0009218472987413406
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.28,
+        "churn_risk": 0.02,
+        "billing_issue": 0.53,
+        "needs_human": 0.19
+      },
+      "labels": null,
+      "generation_seconds": 0.34544885100000045,
+      "request_seconds": 0.3536152759999993,
+      "estimated_gpu_cost_usd": 0.00038791595777199926,
+      "prompt": "<user_text>\nCUSTOMER: Lumen Travel\nMESSAGE: Thank you for adding multi-currency receipts. Our finance team is thrilled.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-11",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 185,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9928418397903442,
+        "happy": 0.0005430142628028989,
+        "urgent": 0.9990148544311523,
+        "churn_risk": 0.11285171657800674,
+        "billing_issue": 0.00027719218633137643,
+        "needs_human": 0.9999710321426392
+      },
+      "reference_p_true": {
+        "angry": 0.69,
+        "happy": 0.01,
+        "urgent": 0.93,
+        "churn_risk": 0.54,
+        "billing_issue": 0.02,
+        "needs_human": 0.87
+      },
+      "labels": null,
+      "generation_seconds": 0.20278673400000002,
+      "request_seconds": 0.21123183299999937,
+      "estimated_gpu_cost_usd": 0.00023172132080099932,
+      "prompt": "<user_text>\nCUSTOMER: Atlas Foods\nMESSAGE: A customer can see another customer's order address in the portal. We disabled the integration. Please treat this as a security incident.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-12",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 174,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 6.63399332552217e-05,
+        "happy": 1.9735010937438346e-05,
+        "urgent": 0.0028472940903156996,
+        "churn_risk": 0.0005587522755376995,
+        "billing_issue": 0.0002333299780730158,
+        "needs_human": 0.04865723475813866
+      },
+      "reference_p_true": {
+        "angry": 0.14,
+        "happy": 0.01,
+        "urgent": 0.28,
+        "churn_risk": 0.13,
+        "billing_issue": 0.01,
+        "needs_human": 0.3
+      },
+      "labels": null,
+      "generation_seconds": 0.3486613820000031,
+      "request_seconds": 0.356748225000004,
+      "estimated_gpu_cost_usd": 0.0003913528028250045,
+      "prompt": "<user_text>\nCUSTOMER: Moss Analytics\nMESSAGE: The dashboard takes about ten seconds to load. It is annoying but still usable.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-13",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 175,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9999697208404541,
+        "happy": 0.0006513675325550139,
+        "urgent": 0.9963995218276978,
+        "churn_risk": 0.9999711513519287,
+        "billing_issue": 0.9999954700469971,
+        "needs_human": 0.999991774559021
+      },
+      "reference_p_true": {
+        "angry": 0.87,
+        "happy": 0,
+        "urgent": 0.82,
+        "churn_risk": 0.92,
+        "billing_issue": 0.98,
+        "needs_human": 0.88
+      },
+      "labels": null,
+      "generation_seconds": 0.3311311109999906,
+      "request_seconds": 0.33896564900000214,
+      "estimated_gpu_cost_usd": 0.0003718453169530024,
+      "prompt": "<user_text>\nCUSTOMER: Birch Media\nMESSAGE: Cancel our account and refund the annual renewal. We emailed before renewal and nobody replied.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-14",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 175,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.0001077460401575081,
+        "happy": 3.4785520256264135e-05,
+        "urgent": 0.0006739493110217154,
+        "churn_risk": 2.5516654204693623e-05,
+        "billing_issue": 4.379810343380086e-05,
+        "needs_human": 0.08102812618017197
+      },
+      "reference_p_true": {
+        "angry": 0.04,
+        "happy": 0.06,
+        "urgent": 0.46,
+        "churn_risk": 0.09,
+        "billing_issue": 0.01,
+        "needs_human": 0.44
+      },
+      "labels": null,
+      "generation_seconds": 0.20286018699999886,
+      "request_seconds": 0.21088760799999307,
+      "estimated_gpu_cost_usd": 0.0002313437059759924,
+      "prompt": "<user_text>\nCUSTOMER: Cobalt Design\nMESSAGE: Can I change the color of the weekly digest? I may have missed the setting.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-15",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 174,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 8.356764737982303e-05,
+        "happy": 0.9986721277236938,
+        "urgent": 4.944324609823525e-05,
+        "churn_risk": 0.0001352125545963645,
+        "billing_issue": 0.0002086668973788619,
+        "needs_human": 0.0008829382131807506
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.34,
+        "churn_risk": 0.02,
+        "billing_issue": 0.01,
+        "needs_human": 0.22
+      },
+      "labels": null,
+      "generation_seconds": 0.20823772299999632,
+      "request_seconds": 0.21604367100000843,
+      "estimated_gpu_cost_usd": 0.00023699990708700926,
+      "prompt": "<user_text>\nCUSTOMER: Fable Games\nMESSAGE: The launch went smoothly and your onboarding checklist saved us hours. Great work.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-16",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 179,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9993793964385986,
+        "happy": 0.0005325520760379732,
+        "urgent": 0.9991014003753662,
+        "churn_risk": 0.04865723475813866,
+        "billing_issue": 0.000479460577480495,
+        "needs_human": 0.9997296929359436
+      },
+      "reference_p_true": {
+        "angry": 0.7,
+        "happy": 0,
+        "urgent": 0.95,
+        "churn_risk": 0.33,
+        "billing_issue": 0.01,
+        "needs_human": 0.82
+      },
+      "labels": null,
+      "generation_seconds": 0.1963687140000019,
+      "request_seconds": 0.20419153200001006,
+      "estimated_gpu_cost_usd": 0.00022399811060401105,
+      "prompt": "<user_text>\nCUSTOMER: Kite Logistics\nMESSAGE: Tracking updates have been delayed since yesterday and our dispatch team is calling drivers manually. We need an ETA.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-17",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 172,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 3.987076343037188e-05,
+        "happy": 0.00016405760834459215,
+        "urgent": 0.01587050035595894,
+        "churn_risk": 4.576045830617659e-05,
+        "billing_issue": 0.000108056963654235,
+        "needs_human": 0.4625858962535858
+      },
+      "reference_p_true": {
+        "angry": 0.09,
+        "happy": 0.03,
+        "urgent": 0.56,
+        "churn_risk": 0.16,
+        "billing_issue": 0.01,
+        "needs_human": 0.54
+      },
+      "labels": null,
+      "generation_seconds": 0.32136960100000067,
+      "request_seconds": 0.3287689719999918,
+      "estimated_gpu_cost_usd": 0.000360659562283991,
+      "prompt": "<user_text>\nCUSTOMER: Willow Research\nMESSAGE: Your API docs show two different parameter names. Which one is current?\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-18",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 178,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9999489784240723,
+        "happy": 0.0005177268176339567,
+        "urgent": 0.9999151229858398,
+        "churn_risk": 0.4598155617713928,
+        "billing_issue": 0.9999774694442749,
+        "needs_human": 0.9999730587005615
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.89,
+        "churn_risk": 0.4,
+        "billing_issue": 0.63,
+        "needs_human": 0.81
+      },
+      "labels": null,
+      "generation_seconds": 0.196807500999995,
+      "request_seconds": 0.20445064699998738,
+      "estimated_gpu_cost_usd": 0.00022428235975898618,
+      "prompt": "<user_text>\nCUSTOMER: Summit Retail\nMESSAGE: We have asked for a tax receipt for six weeks. Accounting closes today. I am beyond frustrated.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-19",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 173,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 8.603895548731089e-05,
+        "happy": 0.9998213648796082,
+        "urgent": 1.5821471606614068e-05,
+        "churn_risk": 5.034525747760199e-05,
+        "billing_issue": 9.719638183014467e-05,
+        "needs_human": 0.00039180455496534705
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.97,
+        "urgent": 0.41,
+        "churn_risk": 0.03,
+        "billing_issue": 0.01,
+        "needs_human": 0.18
+      },
+      "labels": null,
+      "generation_seconds": 0.19902773100000104,
+      "request_seconds": 0.20620848800000147,
+      "estimated_gpu_cost_usd": 0.00022621071133600162,
+      "prompt": "<user_text>\nCUSTOMER: River Robotics\nMESSAGE: The webhook retry feature worked exactly as advertised during our outage. Very impressed.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-20",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 168,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 6.977988232392818e-05,
+        "happy": 3.1745981686981395e-05,
+        "urgent": 0.0036004867870360613,
+        "churn_risk": 8.194934343919158e-05,
+        "billing_issue": 7.579510565847158e-05,
+        "needs_human": 0.00994569156318903
+      },
+      "reference_p_true": {
+        "angry": 0.02,
+        "happy": 0.22,
+        "urgent": 0.37,
+        "churn_risk": 0.06,
+        "billing_issue": 0.01,
+        "needs_human": 0.44
+      },
+      "labels": null,
+      "generation_seconds": 0.3318236989999974,
+      "request_seconds": 0.3394152640000101,
+      "estimated_gpu_cost_usd": 0.0003723385446080111,
+      "prompt": "<user_text>\nCUSTOMER: Elm Ventures\nMESSAGE: Please add my colleague to the workspace when convenient.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-21",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 176,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9995972514152527,
+        "happy": 0.001210831105709076,
+        "urgent": 0.998599112033844,
+        "churn_risk": 0.030215201899409294,
+        "billing_issue": 7.929766434244812e-05,
+        "needs_human": 0.9999171495437622
+      },
+      "reference_p_true": {
+        "angry": 0.83,
+        "happy": 0,
+        "urgent": 0.95,
+        "churn_risk": 0.3,
+        "billing_issue": 0.01,
+        "needs_human": 0.81
+      },
+      "labels": null,
+      "generation_seconds": 0.3259815650000064,
+      "request_seconds": 0.33326053500000796,
+      "estimated_gpu_cost_usd": 0.00036558680689500876,
+      "prompt": "<user_text>\nCUSTOMER: Quartz Energy\nMESSAGE: Production exports are returning empty files. Our regulatory report is due tomorrow and this blocks submission.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-22",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 181,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9999692440032959,
+        "happy": 0.0001588802260812372,
+        "urgent": 0.9949770569801331,
+        "churn_risk": 0.999977707862854,
+        "billing_issue": 0.9999967813491821,
+        "needs_human": 0.9999423027038574
+      },
+      "reference_p_true": {
+        "angry": 0.91,
+        "happy": 0,
+        "urgent": 0.83,
+        "churn_risk": 0.6,
+        "billing_issue": 0.88,
+        "needs_human": 0.84
+      },
+      "labels": null,
+      "generation_seconds": 0.19640382599999384,
+      "request_seconds": 0.20397703000000433,
+      "estimated_gpu_cost_usd": 0.00022376280191000478,
+      "prompt": "<user_text>\nCUSTOMER: Acorn Market\nMESSAGE: Why did the price increase without notice? If this is the new rate, we will move to a competitor.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-23",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 169,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 9.515714191365987e-05,
+        "happy": 0.9993183612823486,
+        "urgent": 0.0001885817473521456,
+        "churn_risk": 0.00021810809266753495,
+        "billing_issue": 0.0003613774024415761,
+        "needs_human": 0.00019554021127987653
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.98,
+        "urgent": 0.33,
+        "churn_risk": 0.03,
+        "billing_issue": 0.01,
+        "needs_human": 0.22
+      },
+      "labels": null,
+      "generation_seconds": 0.3140434809999988,
+      "request_seconds": 0.3219268510000006,
+      "estimated_gpu_cost_usd": 0.0003531537555470007,
+      "prompt": "<user_text>\nCUSTOMER: Nova Museum\nMESSAGE: The accessibility improvements are wonderful. Our visitors noticed immediately.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-24",
+      "steps": 1,
+      "seed": 0,
+      "actual_steps": 1,
+      "input_tokens": 180,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 0.9992434978485107,
+        "happy": 0.0013666859595105052,
+        "urgent": 0.9987319111824036,
+        "churn_risk": 0.006848060060292482,
+        "billing_issue": 0.0001848892425186932,
+        "needs_human": 0.9997734427452087
+      },
+      "reference_p_true": {
+        "angry": 0.69,
+        "happy": 0.01,
+        "urgent": 0.97,
+        "churn_risk": 0.32,
+        "billing_issue": 0,
+        "needs_human": 0.82
+      },
+      "labels": null,
+      "generation_seconds": 0.19047995900000103,
+      "request_seconds": 0.19825051599998744,
+      "estimated_gpu_cost_usd": 0.00021748081605198625,
+      "prompt": "<user_text>\nCUSTOMER: Tide Security\nMESSAGE: A former employee still has administrator access despite being removed yesterday. Revoke it now and confirm the audit trail.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "auth/session.ts",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 312,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": true, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": true,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 1.0,
+        "duplicate_payout": 2.3083781552912797e-09,
+        "webhook_verify": 1.5117073148829263e-09,
+        "ledger_delete": 5.36917799109915e-09,
+        "stable_rollout": 9.535932932180913e-09,
+        "queue_trace": 6.746967429194228e-09
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.9,
+        "duplicate_payout": 0.03,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.02,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.06
+      },
+      "labels": {
+        "refresh_rotation": true,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.4865573310000002,
+      "request_seconds": 0.49564894299999196,
+      "estimated_gpu_cost_usd": 0.0005437268904709912,
+      "prompt": "<user_text>\nexport async function rotateRefreshToken(sessionId: string, presentedToken: string) {\n  const session = await sessions.lock(sessionId);\n  if (session.refreshTokenHash !== hash(presentedToken)) throw new InvalidToken();\n  const next = randomToken();\n  await sessions.update(sessionId, {\n    refreshTokenHash: hash(next),\n    previousTokenHash: session.refreshTokenHash,\n    previousTokenExpiresAt: Date.now() + 30_000,\n  });\n  return next;\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "cache/profile.ts",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 287,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 1.1124208221247045e-08,
+        "duplicate_payout": 1.1226328311408906e-08,
+        "webhook_verify": 1.0146475659666976e-08,
+        "ledger_delete": 4.6406725684455807e-10,
+        "stable_rollout": 2.8889654557495703e-10,
+        "queue_trace": 1.4613704690802365e-09
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.01,
+        "duplicate_payout": 0.01,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.03,
+        "queue_trace": 0.04
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.4828643370000094,
+      "request_seconds": 0.4915710020000006,
+      "estimated_gpu_cost_usd": 0.0005392533891940007,
+      "prompt": "<user_text>\nexport async function readProfile(userId: string) {\n  const key = `profile:${userId}`;\n  const hit = await redis.get(key);\n  if (hit) return JSON.parse(hit);\n  const profile = await db.profiles.find(userId);\n  await redis.set(key, JSON.stringify(profile), { ex: 300 });\n  return profile;\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "db/ledger.sql",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 290,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": true, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": true,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 1.6841427141756071e-09,
+        "duplicate_payout": 3.411010496279232e-08,
+        "webhook_verify": 3.0728208866293016e-09,
+        "ledger_delete": 1.0,
+        "stable_rollout": 6.652428607978322e-10,
+        "queue_trace": 1.5951674703362784e-10
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0,
+        "duplicate_payout": 0.03,
+        "webhook_verify": 0,
+        "ledger_delete": 0.98,
+        "stable_rollout": 0.01,
+        "queue_trace": 0.03
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": true,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.5041306039999967,
+      "request_seconds": 0.5127402159999974,
+      "estimated_gpu_cost_usd": 0.0005624760169519972,
+      "prompt": "<user_text>\nCREATE TABLE ledger_entries (\n  id UUID PRIMARY KEY,\n  account_id UUID NOT NULL,\n  amount_cents BIGINT NOT NULL,\n  reversal_of UUID REFERENCES ledger_entries(id),\n  created_at TIMESTAMPTZ NOT NULL DEFAULT now()\n);\n-- Ledger rows are immutable. Correct mistakes by inserting a reversing entry.\nREVOKE UPDATE, DELETE ON ledger_entries FROM app_user;\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "email/digest.ts",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 269,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 1.947943140123698e-09,
+        "duplicate_payout": 1.996923293390296e-09,
+        "webhook_verify": 7.515525091150721e-09,
+        "ledger_delete": 1.3328314452110135e-08,
+        "stable_rollout": 3.926983183077937e-09,
+        "queue_trace": 2.955057976095077e-09
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0,
+        "duplicate_payout": 0.01,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.09
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.4800692759999947,
+      "request_seconds": 0.4891805480000073,
+      "estimated_gpu_cost_usd": 0.0005366310611560081,
+      "prompt": "<user_text>\nexport async function sendWeeklyDigest(user: User, stories: Story[]) {\n  if (!user.preferences.weeklyDigest) return;\n  const html = renderDigest(stories.slice(0, 10));\n  await mailer.send({ to: user.email, subject: \"Your weekly digest\", html });\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "flags/rollout.ts",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 270,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": true, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": true,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 2.5221336130698546e-09,
+        "duplicate_payout": 7.985324401715843e-09,
+        "webhook_verify": 4.534981279391559e-09,
+        "ledger_delete": 8.733784806480571e-10,
+        "stable_rollout": 1.0,
+        "queue_trace": 1.166310659161951e-10
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0,
+        "duplicate_payout": 0.04,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.94,
+        "queue_trace": 0.03
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": true,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.48920973799999956,
+      "request_seconds": 0.4982860690000024,
+      "estimated_gpu_cost_usd": 0.0005466198176930026,
+      "prompt": "<user_text>\nexport function isInRollout(flag: string, actorId: string, percentage: number) {\n  const bucket = stableHash(`${flag}:${actorId}`) % 10_000;\n  return bucket < percentage * 100;\n}\n// Stable hashing keeps an actor in the same cohort across requests and deploys.\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "observability/tracing.ts",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 263,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": true}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": true
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 4.3920164727317967e-10,
+        "duplicate_payout": 1.1159187351950095e-08,
+        "webhook_verify": 4.0403005940881087e-10,
+        "ledger_delete": 2.650133446024938e-10,
+        "stable_rollout": 1.9209536183950604e-09,
+        "queue_trace": 1.0
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.01,
+        "duplicate_payout": 0.03,
+        "webhook_verify": 0.01,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.03,
+        "queue_trace": 0.93
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": true
+      },
+      "generation_seconds": 0.48406232499999646,
+      "request_seconds": 0.49294520200000136,
+      "estimated_gpu_cost_usd": 0.0005407608865940015,
+      "prompt": "<user_text>\nexport function publishJob(name: string, payload: unknown) {\n  return queue.publish(name, payload, {\n    traceparent: activeSpan()?.traceparent,\n    correlationId: requestContext.correlationId,\n  });\n}\n// Workers restore both fields before starting their child span.\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "payments/reconcile.ts",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 281,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": true, \"webhook_verify\": false, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": true,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 2.521377551190085e-10,
+        "duplicate_payout": 1.0,
+        "webhook_verify": 1.9083918445517156e-08,
+        "ledger_delete": 3.670180159787151e-09,
+        "stable_rollout": 3.1476876660718744e-10,
+        "queue_trace": 7.829765169553582e-10
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.05,
+        "duplicate_payout": 0.97,
+        "webhook_verify": 0.03,
+        "ledger_delete": 0.03,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.06
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": true,
+        "webhook_verify": false,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.48983280600000967,
+      "request_seconds": 0.49862179200000867,
+      "estimated_gpu_cost_usd": 0.0005469881058240096,
+      "prompt": "<user_text>\nexport async function createPayout(request: PayoutRequest) {\n  return db.transaction(async (tx) => {\n    const existing = await tx.payouts.findByIdempotencyKey(request.idempotencyKey);\n    if (existing) return existing;\n    return tx.payouts.insert({ ...request, state: \"pending\" });\n  });\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "code-rag",
+      "id": "webhooks/stripe.ts",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 302,
+      "judgments": 6,
+      "json": "{\"refresh_rotation\": false, \"duplicate_payout\": false, \"webhook_verify\": true, \"ledger_delete\": false, \"stable_rollout\": false, \"queue_trace\": false}",
+      "values": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": true,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "uncalibrated_p_true": {
+        "refresh_rotation": 6.145234543453171e-09,
+        "duplicate_payout": 4.247606355534117e-08,
+        "webhook_verify": 1.0,
+        "ledger_delete": 1.0099436842381238e-09,
+        "stable_rollout": 2.511529650917055e-09,
+        "queue_trace": 2.1123236493281183e-09
+      },
+      "reference_p_true": {
+        "refresh_rotation": 0.07,
+        "duplicate_payout": 0.65,
+        "webhook_verify": 0.94,
+        "ledger_delete": 0.01,
+        "stable_rollout": 0.02,
+        "queue_trace": 0.2
+      },
+      "labels": {
+        "refresh_rotation": false,
+        "duplicate_payout": false,
+        "webhook_verify": true,
+        "ledger_delete": false,
+        "stable_rollout": false,
+        "queue_trace": false
+      },
+      "generation_seconds": 0.48311128400000314,
+      "request_seconds": 0.49260847099999694,
+      "estimated_gpu_cost_usd": 0.0005403914926869967,
+      "prompt": "<user_text>\nexport async function stripeWebhook(rawBody: Buffer, signature: string) {\n  const event = stripe.webhooks.constructEvent(rawBody, signature, env.STRIPE_SECRET);\n  if (await events.wasProcessed(event.id)) return { duplicate: true };\n  await queue.publish(\"stripe-events\", event, { retry: { attempts: 8, backoff: \"exponential\" } });\n  await events.markProcessed(event.id);\n}\n\n\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"refresh_rotation\": Does this file contain the implementation of refresh-token rotation and replay protection?\n\"duplicate_payout\": Does this file contain the logic that prevents a retried request from creating a duplicate payout?\n\"webhook_verify\": Does this file contain code that verifies Stripe webhook signatures and ignores duplicate events?\n\"ledger_delete\": Does this file explain or implement how to correct a ledger entry without deleting it?\n\"stable_rollout\": Does this file contain the logic that keeps a user in the same feature-flag cohort across deploys?\n\"queue_trace\": Does this file contain code that continues a request trace after work moves onto a queue?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-01",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 186,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 2.9079123553543695e-09,
+        "urgent": 1.0,
+        "churn_risk": 1.0,
+        "billing_issue": 1.0,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.96,
+        "churn_risk": 0.75,
+        "billing_issue": 0.99,
+        "needs_human": 0.91
+      },
+      "labels": null,
+      "generation_seconds": 0.47580202599999666,
+      "request_seconds": 0.4836872349999908,
+      "estimated_gpu_cost_usd": 0.0005306048967949899,
+      "prompt": "<user_text>\nCUSTOMER: Maple Labs\nMESSAGE: I was charged three times after the checkout page froze. This is the second billing problem this month. Fix it today or we are cancelling.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-02",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 181,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 4.6854410129526514e-08,
+        "happy": 1.0,
+        "urgent": 1.958545992053473e-09,
+        "churn_risk": 1.7306340804879028e-09,
+        "billing_issue": 6.478392045039527e-09,
+        "needs_human": 2.915226282595995e-09
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.42,
+        "churn_risk": 0.02,
+        "billing_issue": 0.01,
+        "needs_human": 0.3
+      },
+      "labels": null,
+      "generation_seconds": 0.4716478180000081,
+      "request_seconds": 0.4807120979999979,
+      "estimated_gpu_cost_usd": 0.0005273411715059977,
+      "prompt": "<user_text>\nCUSTOMER: Harbor Studio\nMESSAGE: Your support team solved our migration problem in twenty minutes. Please pass along our thanks\u2014everything is working perfectly now.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-03",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 185,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 6.675858088556197e-09,
+        "urgent": 1.0,
+        "churn_risk": 2.701612515920715e-07,
+        "billing_issue": 4.004428344472899e-09,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.94,
+        "happy": 0,
+        "urgent": 0.98,
+        "churn_risk": 0.53,
+        "billing_issue": 0.01,
+        "needs_human": 0.95
+      },
+      "labels": null,
+      "generation_seconds": 0.4899686210000027,
+      "request_seconds": 0.49786884099999895,
+      "estimated_gpu_cost_usd": 0.0005461621185769989,
+      "prompt": "<user_text>\nCUSTOMER: Northstar Legal\nMESSAGE: We cannot log in and have a client filing due in two hours. Password reset emails never arrive. We need a person immediately.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-04",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 178,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 2.1048563780823315e-08,
+        "happy": 8.558283184356696e-07,
+        "urgent": 2.956591416136689e-09,
+        "churn_risk": 1.709010599704186e-09,
+        "billing_issue": 1.4415433291503632e-09,
+        "needs_human": 5.142820214132371e-08
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.23,
+        "urgent": 0.08,
+        "churn_risk": 0.05,
+        "billing_issue": 0.01,
+        "needs_human": 0.41
+      },
+      "labels": null,
+      "generation_seconds": 0.4869289060000028,
+      "request_seconds": 0.4943564579999986,
+      "estimated_gpu_cost_usd": 0.0005423090344259986,
+      "prompt": "<user_text>\nCUSTOMER: Cedar School\nMESSAGE: Could you point me to instructions for exporting student reports? No rush; we are planning next semester.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-05",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 184,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 1.6327046381547916e-08,
+        "urgent": 1.0,
+        "churn_risk": 1.0,
+        "billing_issue": 5.600445884823557e-09,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.94,
+        "churn_risk": 0.63,
+        "billing_issue": 0.03,
+        "needs_human": 0.93
+      },
+      "labels": null,
+      "generation_seconds": 0.4920792679999977,
+      "request_seconds": 0.49999635900000783,
+      "estimated_gpu_cost_usd": 0.0005484960058230086,
+      "prompt": "<user_text>\nCUSTOMER: Orbit Health\nMESSAGE: I have explained this four times and keep receiving the same canned response. Our entire team is locked out. I want this escalated.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-06",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 177,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.3136778775901803e-08,
+        "happy": 1.0,
+        "urgent": 2.5588664520626025e-10,
+        "churn_risk": 5.338359532203185e-09,
+        "billing_issue": 2.0079000684347648e-09,
+        "needs_human": 1.0502053671146427e-09
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.38,
+        "churn_risk": 0.02,
+        "billing_issue": 0.01,
+        "needs_human": 0.2
+      },
+      "labels": null,
+      "generation_seconds": 0.49327374000000646,
+      "request_seconds": 0.5013531430000029,
+      "estimated_gpu_cost_usd": 0.0005499843978710032,
+      "prompt": "<user_text>\nCUSTOMER: Juniper Books\nMESSAGE: The new search is fantastic. It found a title our staff had been hunting for all morning.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-07",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 179,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.4704518491726049e-07,
+        "happy": 3.02782652283895e-08,
+        "urgent": 1.0,
+        "churn_risk": 5.707028627455202e-09,
+        "billing_issue": 1.0,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.5,
+        "happy": 0.01,
+        "urgent": 0.96,
+        "churn_risk": 0.12,
+        "billing_issue": 0.92,
+        "needs_human": 0.78
+      },
+      "labels": null,
+      "generation_seconds": 0.4925987589999892,
+      "request_seconds": 0.5002307239999908,
+      "estimated_gpu_cost_usd": 0.00054875310422799,
+      "prompt": "<user_text>\nCUSTOMER: Beacon Finance\nMESSAGE: The invoice lists the wrong legal entity and procurement will reject it tomorrow morning. Can someone reissue it today?\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-08",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 178,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 2.2464688242962438e-07,
+        "happy": 4.063973392476328e-06,
+        "urgent": 1.6385219847592225e-09,
+        "churn_risk": 1.1445383529817832e-09,
+        "billing_issue": 1.5646916651235188e-08,
+        "needs_human": 1.7914992822554154e-09
+      },
+      "reference_p_true": {
+        "angry": 0.03,
+        "happy": 0.17,
+        "urgent": 0.23,
+        "churn_risk": 0.03,
+        "billing_issue": 0.01,
+        "needs_human": 0.25
+      },
+      "labels": null,
+      "generation_seconds": 0.5027060169999942,
+      "request_seconds": 0.5100646679999983,
+      "estimated_gpu_cost_usd": 0.0005595409407959982,
+      "prompt": "<user_text>\nCUSTOMER: Pinecone AI\nMESSAGE: Is dark mode on the roadmap? It would be nice, but it is not blocking us.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-09",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 180,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 3.465225051346721e-10,
+        "urgent": 1.0,
+        "churn_risk": 1.0,
+        "billing_issue": 1.7689879783233664e-08,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.93,
+        "churn_risk": 0.53,
+        "billing_issue": 0.1,
+        "needs_human": 0.86
+      },
+      "labels": null,
+      "generation_seconds": 0.5018342709999928,
+      "request_seconds": 0.5094553769999948,
+      "estimated_gpu_cost_usd": 0.0005588725485689943,
+      "prompt": "<user_text>\nCUSTOMER: Copper Works\nMESSAGE: We upgraded yesterday and none of the promised seats appeared. Sales said it would be instant. This is unacceptable.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-10",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 173,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.5413554876886337e-09,
+        "happy": 1.0,
+        "urgent": 5.581173856405997e-10,
+        "churn_risk": 1.0929158689165774e-09,
+        "billing_issue": 6.928658979887814e-09,
+        "needs_human": 1.2739135968331539e-08
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.28,
+        "churn_risk": 0.02,
+        "billing_issue": 0.53,
+        "needs_human": 0.19
+      },
+      "labels": null,
+      "generation_seconds": 0.48058223499999997,
+      "request_seconds": 0.48852429599999425,
+      "estimated_gpu_cost_usd": 0.0005359111527119938,
+      "prompt": "<user_text>\nCUSTOMER: Lumen Travel\nMESSAGE: Thank you for adding multi-currency receipts. Our finance team is thrilled.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-11",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 185,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 7.691486891836519e-10,
+        "urgent": 1.0,
+        "churn_risk": 1.577956787457424e-08,
+        "billing_issue": 2.3083781552912797e-09,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.69,
+        "happy": 0.01,
+        "urgent": 0.93,
+        "churn_risk": 0.54,
+        "billing_issue": 0.02,
+        "needs_human": 0.87
+      },
+      "labels": null,
+      "generation_seconds": 0.5155806549999937,
+      "request_seconds": 0.5234494850000004,
+      "estimated_gpu_cost_usd": 0.0005742240850450006,
+      "prompt": "<user_text>\nCUSTOMER: Atlas Foods\nMESSAGE: A customer can see another customer's order address in the portal. We disabled the integration. Please treat this as a security incident.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-12",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 174,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 4.091219807378366e-09,
+        "happy": 3.8883083419705144e-09,
+        "urgent": 1.3931316544812944e-08,
+        "churn_risk": 5.4619855305304554e-09,
+        "billing_issue": 3.5566363187911065e-09,
+        "needs_human": 2.025232248570319e-08
+      },
+      "reference_p_true": {
+        "angry": 0.14,
+        "happy": 0.01,
+        "urgent": 0.28,
+        "churn_risk": 0.13,
+        "billing_issue": 0.01,
+        "needs_human": 0.3
+      },
+      "labels": null,
+      "generation_seconds": 0.5078022280000027,
+      "request_seconds": 0.5154844940000061,
+      "estimated_gpu_cost_usd": 0.0005654864899180067,
+      "prompt": "<user_text>\nCUSTOMER: Moss Analytics\nMESSAGE: The dashboard takes about ten seconds to load. It is annoying but still usable.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-13",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 175,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 2.352833927687925e-09,
+        "urgent": 1.0,
+        "churn_risk": 1.0,
+        "billing_issue": 1.0,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.87,
+        "happy": 0,
+        "urgent": 0.82,
+        "churn_risk": 0.92,
+        "billing_issue": 0.98,
+        "needs_human": 0.88
+      },
+      "labels": null,
+      "generation_seconds": 0.4794298740000045,
+      "request_seconds": 0.4868505560000074,
+      "estimated_gpu_cost_usd": 0.0005340750599320081,
+      "prompt": "<user_text>\nCUSTOMER: Birch Media\nMESSAGE: Cancel our account and refund the annual renewal. We emailed before renewal and nobody replied.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-14",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 175,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 2.9704423809562286e-07,
+        "happy": 1.4944381732107104e-08,
+        "urgent": 1.238391700297825e-08,
+        "churn_risk": 9.612025841931882e-09,
+        "billing_issue": 1.8171178339798644e-08,
+        "needs_human": 4.362382810541021e-08
+      },
+      "reference_p_true": {
+        "angry": 0.04,
+        "happy": 0.06,
+        "urgent": 0.46,
+        "churn_risk": 0.09,
+        "billing_issue": 0.01,
+        "needs_human": 0.44
+      },
+      "labels": null,
+      "generation_seconds": 0.49763072700000066,
+      "request_seconds": 0.5051321200000132,
+      "estimated_gpu_cost_usd": 0.0005541299356400145,
+      "prompt": "<user_text>\nCUSTOMER: Cobalt Design\nMESSAGE: Can I change the color of the weekly digest? I may have missed the setting.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-15",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 174,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 3.852152374861362e-09,
+        "happy": 1.0,
+        "urgent": 5.400315195025485e-10,
+        "churn_risk": 2.3696236084447264e-09,
+        "billing_issue": 2.7820254988597526e-09,
+        "needs_human": 2.903367990469974e-09
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.99,
+        "urgent": 0.34,
+        "churn_risk": 0.02,
+        "billing_issue": 0.01,
+        "needs_human": 0.22
+      },
+      "labels": null,
+      "generation_seconds": 0.49310938699998985,
+      "request_seconds": 0.5006017199999917,
+      "estimated_gpu_cost_usd": 0.000549160086839991,
+      "prompt": "<user_text>\nCUSTOMER: Fable Games\nMESSAGE: The launch went smoothly and your onboarding checklist saved us hours. Great work.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-16",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 179,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 2.1497468694064992e-08,
+        "urgent": 1.0,
+        "churn_risk": 8.234501081005874e-09,
+        "billing_issue": 1.2504634661070213e-08,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.7,
+        "happy": 0,
+        "urgent": 0.95,
+        "churn_risk": 0.33,
+        "billing_issue": 0.01,
+        "needs_human": 0.82
+      },
+      "labels": null,
+      "generation_seconds": 0.4788666010000071,
+      "request_seconds": 0.48618430999999873,
+      "estimated_gpu_cost_usd": 0.0005333441880699986,
+      "prompt": "<user_text>\nCUSTOMER: Kite Logistics\nMESSAGE: Tracking updates have been delayed since yesterday and our dispatch team is calling drivers manually. We need an ETA.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-17",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 172,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.4208409027105517e-07,
+        "happy": 4.86818407807732e-09,
+        "urgent": 2.0836286296344042e-07,
+        "churn_risk": 1.1356862117395394e-08,
+        "billing_issue": 1.899504775693117e-09,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.09,
+        "happy": 0.03,
+        "urgent": 0.56,
+        "churn_risk": 0.16,
+        "billing_issue": 0.01,
+        "needs_human": 0.54
+      },
+      "labels": null,
+      "generation_seconds": 0.48445910899999944,
+      "request_seconds": 0.49188480099999765,
+      "estimated_gpu_cost_usd": 0.0005395976266969975,
+      "prompt": "<user_text>\nCUSTOMER: Willow Research\nMESSAGE: Your API docs show two different parameter names. Which one is current?\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-18",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 178,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 4.26506652217995e-09,
+        "urgent": 1.0,
+        "churn_risk": 4.868409320124556e-08,
+        "billing_issue": 1.0,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.98,
+        "happy": 0,
+        "urgent": 0.89,
+        "churn_risk": 0.4,
+        "billing_issue": 0.63,
+        "needs_human": 0.81
+      },
+      "labels": null,
+      "generation_seconds": 0.47322691600000155,
+      "request_seconds": 0.4806005969999916,
+      "estimated_gpu_cost_usd": 0.0005272188549089908,
+      "prompt": "<user_text>\nCUSTOMER: Summit Retail\nMESSAGE: We have asked for a tax receipt for six weeks. Accounting closes today. I am beyond frustrated.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-19",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 173,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 4.628659122651868e-10,
+        "happy": 1.0,
+        "urgent": 2.6257912510985193e-10,
+        "churn_risk": 1.2990907238830118e-09,
+        "billing_issue": 2.0049302218438925e-09,
+        "needs_human": 1.408943273162322e-08
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.97,
+        "urgent": 0.41,
+        "churn_risk": 0.03,
+        "billing_issue": 0.01,
+        "needs_human": 0.18
+      },
+      "labels": null,
+      "generation_seconds": 0.48316750399999364,
+      "request_seconds": 0.4910358240000079,
+      "estimated_gpu_cost_usd": 0.0005386662989280087,
+      "prompt": "<user_text>\nCUSTOMER: River Robotics\nMESSAGE: The webhook retry feature worked exactly as advertised during our outage. Very impressed.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-20",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 168,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": false, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": false,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 3.5762084849011444e-08,
+        "happy": 7.121178668967332e-07,
+        "urgent": 1.4500595391098159e-08,
+        "churn_risk": 3.123300951202168e-09,
+        "billing_issue": 4.668471831337229e-09,
+        "needs_human": 1.3015244881842136e-08
+      },
+      "reference_p_true": {
+        "angry": 0.02,
+        "happy": 0.22,
+        "urgent": 0.37,
+        "churn_risk": 0.06,
+        "billing_issue": 0.01,
+        "needs_human": 0.44
+      },
+      "labels": null,
+      "generation_seconds": 0.4770714819999995,
+      "request_seconds": 0.4842643599999974,
+      "estimated_gpu_cost_usd": 0.0005312380029199972,
+      "prompt": "<user_text>\nCUSTOMER: Elm Ventures\nMESSAGE: Please add my colleague to the workspace when convenient.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-21",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 176,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 3.318065822099925e-09,
+        "urgent": 1.0,
+        "churn_risk": 2.059023840317309e-09,
+        "billing_issue": 5.773508338080546e-09,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.83,
+        "happy": 0,
+        "urgent": 0.95,
+        "churn_risk": 0.3,
+        "billing_issue": 0.01,
+        "needs_human": 0.81
+      },
+      "labels": null,
+      "generation_seconds": 0.48135506699999553,
+      "request_seconds": 0.48853455399999746,
+      "estimated_gpu_cost_usd": 0.0005359224057379972,
+      "prompt": "<user_text>\nCUSTOMER: Quartz Energy\nMESSAGE: Production exports are returning empty files. Our regulatory report is due tomorrow and this blocks submission.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-22",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 181,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": true, \"billing_issue\": true, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": true,
+        "billing_issue": true,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 3.7526177720792475e-09,
+        "urgent": 1.0,
+        "churn_risk": 1.0,
+        "billing_issue": 1.0,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.91,
+        "happy": 0,
+        "urgent": 0.83,
+        "churn_risk": 0.6,
+        "billing_issue": 0.88,
+        "needs_human": 0.84
+      },
+      "labels": null,
+      "generation_seconds": 0.4896471570000074,
+      "request_seconds": 0.4976225079999921,
+      "estimated_gpu_cost_usd": 0.0005458918912759913,
+      "prompt": "<user_text>\nCUSTOMER: Acorn Market\nMESSAGE: Why did the price increase without notice? If this is the new rate, we will move to a competitor.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-23",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 169,
+      "judgments": 6,
+      "json": "{\"angry\": false, \"happy\": true, \"urgent\": false, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": false}",
+      "values": {
+        "angry": false,
+        "happy": true,
+        "urgent": false,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": false
+      },
+      "uncalibrated_p_true": {
+        "angry": 3.0954581120568037e-08,
+        "happy": 1.0,
+        "urgent": 5.587066809198404e-09,
+        "churn_risk": 1.4160152161935002e-08,
+        "billing_issue": 1.097390800453013e-08,
+        "needs_human": 8.290858666271106e-09
+      },
+      "reference_p_true": {
+        "angry": 0.01,
+        "happy": 0.98,
+        "urgent": 0.33,
+        "churn_risk": 0.03,
+        "billing_issue": 0.01,
+        "needs_human": 0.22
+      },
+      "labels": null,
+      "generation_seconds": 0.4972968229999992,
+      "request_seconds": 0.5054422480000085,
+      "estimated_gpu_cost_usd": 0.0005544701460560094,
+      "prompt": "<user_text>\nCUSTOMER: Nova Museum\nMESSAGE: The accessibility improvements are wonderful. Our visitors noticed immediately.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    },
+    {
+      "experiment": "customer-voice",
+      "id": "ticket-24",
+      "steps": 4,
+      "seed": 0,
+      "actual_steps": 4,
+      "input_tokens": 180,
+      "judgments": 6,
+      "json": "{\"angry\": true, \"happy\": false, \"urgent\": true, \"churn_risk\": false, \"billing_issue\": false, \"needs_human\": true}",
+      "values": {
+        "angry": true,
+        "happy": false,
+        "urgent": true,
+        "churn_risk": false,
+        "billing_issue": false,
+        "needs_human": true
+      },
+      "uncalibrated_p_true": {
+        "angry": 1.0,
+        "happy": 1.1400636878988735e-08,
+        "urgent": 1.0,
+        "churn_risk": 3.013082672254086e-09,
+        "billing_issue": 4.106631479317002e-08,
+        "needs_human": 1.0
+      },
+      "reference_p_true": {
+        "angry": 0.69,
+        "happy": 0.01,
+        "urgent": 0.97,
+        "churn_risk": 0.32,
+        "billing_issue": 0,
+        "needs_human": 0.82
+      },
+      "labels": null,
+      "generation_seconds": 0.4905422559999977,
+      "request_seconds": 0.4983792350000016,
+      "estimated_gpu_cost_usd": 0.0005467220207950018,
+      "prompt": "<user_text>\nCUSTOMER: Tide Security\nMESSAGE: A former employee still has administrator access despite being removed yesterday. Revoke it now and confirm the audit trail.\n</user_text>\n\n<instructions>\nFor each question below, return a boolean answer in a JSON object. Use exactly the listed keys, in this order. No explanations.\n\"angry\": Does this customer sound angry or seriously frustrated?\n\"happy\": Does this customer sound pleased, grateful, or delighted?\n\"urgent\": Does this issue require a response today?\n\"churn_risk\": Does the customer appear likely to cancel or stop using the product?\n\"billing_issue\": Is the core issue about billing, payment, or a refund?\n\"needs_human\": Should a human support specialist personally handle this conversation?\n</instructions>"
+    }
+  ],
+  "client_remote_call_seconds": 103.30924775003223,
+  "recorded_at": "2026-09-16T14:50:29.928459+00:00",
+  "source_zip_sha256": "9fbf42e9d9e7cd3b072e0271a0959dbfdca85618e93fe4f0ca519d683c418bf0",
+  "bundle_artifact_hashes": {
+    "public/experiments.json": "32311398e800e2e22e8cb945d41ae5328aedebb46cc57193e2b332ec17ed78a0",
+    "fixtures/every-posts.json": "1e1e83ffcb1efa9db9b22e2fa24c08b6eefa7caeea4c3f1ecf940e07c354b5e5",
+    "fixtures/every-posts-synthetic.json": "6fea95966595f86bbf0c8b7e792118506ccd8f8594be117e53a02e1b6913278e",
+    "fixtures/application-experiments.json": "7e73eaa73c818ba68d55226c47f7ec9a381a0a62f08a5682043f4326eabb108f",
+    "fixtures/agent-codebase.json": "869494f854830ef9cfa570e677be9342bfe1d939a5978475a09a88ad4e760905",
+    "experiments/agent-navigation.json": "b56da5a59e9aed620df766331d6b1269e670285ec6c91bd4dcd8ae6210fa78d4",
+    "experiments/qmd-company-brain.json": "8715a40846484b70842564f3e5376e04f79cef74431c8695b40aa73eb466df12"
+  },
+  "saved_typesafe_references": {
+    "code-rag": {
+      "measured": {
+        "wall_ms": 385.1,
+        "calls": 8,
+        "judgments": 48,
+        "per_call_ms": [
+          340.8,
+          350.8,
+          357.7,
+          319.6,
+          354.6,
+          361.7,
+          352,
+          350.3
+        ],
+        "usage": {
+          "input_tokens": 4418,
+          "output_tokens": 776,
+          "estimated_cost_usd": 0.0001856
+        }
+      },
+      "metrics": {
+        "recall_at_1": 1,
+        "recall_at_3": 1,
+        "mrr": 1,
+        "queries": [
+          {
+            "id": "refresh_rotation",
+            "query": "Where is refresh-token rotation and replay protection implemented?",
+            "relevant": [
+              "auth/session.ts"
+            ],
+            "first_rank": 1,
+            "recall_at_1": 1,
+            "recall_at_3": 1,
+            "top": [
+              {
+                "id": "auth/session.ts",
+                "score": 0.9,
+                "latency_ms": 340.8
+              },
+              {
+                "id": "webhooks/stripe.ts",
+                "score": 0.07,
+                "latency_ms": 350.3
+              },
+              {
+                "id": "payments/reconcile.ts",
+                "score": 0.05,
+                "latency_ms": 352
+              },
+              {
+                "id": "cache/profile.ts",
+                "score": 0.01,
+                "latency_ms": 350.8
+              }
+            ]
+          },
+          {
+            "id": "duplicate_payout",
+            "query": "How do we prevent a retried request from creating a duplicate payout?",
+            "relevant": [
+              "payments/reconcile.ts"
+            ],
+            "first_rank": 1,
+            "recall_at_1": 1,
+            "recall_at_3": 1,
+            "top": [
+              {
+                "id": "payments/reconcile.ts",
+                "score": 0.97,
+                "latency_ms": 352
+              },
+              {
+                "id": "webhooks/stripe.ts",
+                "score": 0.65,
+                "latency_ms": 350.3
+              },
+              {
+                "id": "flags/rollout.ts",
+                "score": 0.04,
+                "latency_ms": 354.6
+              },
+              {
+                "id": "auth/session.ts",
+                "score": 0.03,
+                "latency_ms": 340.8
+              }
+            ]
+          },
+          {
+            "id": "webhook_verify",
+            "query": "Where are Stripe signatures verified and duplicate events ignored?",
+            "relevant": [
+              "webhooks/stripe.ts"
+            ],
+            "first_rank": 1,
+            "recall_at_1": 1,
+            "recall_at_3": 1,
+            "top": [
+              {
+                "id": "webhooks/stripe.ts",
+                "score": 0.94,
+                "latency_ms": 350.3
+              },
+              {
+                "id": "payments/reconcile.ts",
+                "score": 0.03,
+                "latency_ms": 352
+              },
+              {
+                "id": "auth/session.ts",
+                "score": 0.01,
+                "latency_ms": 340.8
+              },
+              {
+                "id": "cache/profile.ts",
+                "score": 0.01,
+                "latency_ms": 350.8
+              }
+            ]
+          },
+          {
+            "id": "ledger_delete",
+            "query": "What is the approved way to correct a ledger entry instead of deleting it?",
+            "relevant": [
+              "db/ledger.sql"
+            ],
+            "first_rank": 1,
+            "recall_at_1": 1,
+            "recall_at_3": 1,
+            "top": [
+              {
+                "id": "db/ledger.sql",
+                "score": 0.98,
+                "latency_ms": 357.7
+              },
+              {
+                "id": "payments/reconcile.ts",
+                "score": 0.03,
+                "latency_ms": 352
+              },
+              {
+                "id": "auth/session.ts",
+                "score": 0.02,
+                "latency_ms": 340.8
+              },
+              {
+                "id": "cache/profile.ts",
+                "score": 0.01,
+                "latency_ms": 350.8
+              }
+            ]
+          },
+          {
+            "id": "stable_rollout",
+            "query": "How does a user remain in the same feature-flag cohort across deploys?",
+            "relevant": [
+              "flags/rollout.ts"
+            ],
+            "first_rank": 1,
+            "recall_at_1": 1,
+            "recall_at_3": 1,
+            "top": [
+              {
+                "id": "flags/rollout.ts",
+                "score": 0.94,
+                "latency_ms": 354.6
+              },
+              {
+                "id": "cache/profile.ts",
+                "score": 0.03,
+                "latency_ms": 350.8
+              },
+              {
+                "id": "observability/tracing.ts",
+                "score": 0.03,
+                "latency_ms": 361.7
+              },
+              {
+                "id": "auth/session.ts",
+                "score": 0.02,
+                "latency_ms": 340.8
+              }
+            ]
+          },
+          {
+            "id": "queue_trace",
+            "query": "How is a request trace continued after work moves onto the queue?",
+            "relevant": [
+              "observability/tracing.ts"
+            ],
+            "first_rank": 1,
+            "recall_at_1": 1,
+            "recall_at_3": 1,
+            "top": [
+              {
+                "id": "observability/tracing.ts",
+                "score": 0.93,
+                "latency_ms": 361.7
+              },
+              {
+                "id": "webhooks/stripe.ts",
+                "score": 0.2,
+                "latency_ms": 350.3
+              },
+              {
+                "id": "email/digest.ts",
+                "score": 0.09,
+                "latency_ms": 319.6
+              },
+              {
+                "id": "auth/session.ts",
+                "score": 0.06,
+                "latency_ms": 340.8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "customer-voice": {
+      "measured": {
+        "wall_ms": 675.5,
+        "calls": 24,
+        "judgments": 144,
+        "per_call_ms": [
+          533.7,
+          562.6,
+          549.1,
+          615.3,
+          546.7,
+          560,
+          570.8,
+          516,
+          565.1,
+          565.1,
+          561.4,
+          556.9,
+          567,
+          559,
+          553.4,
+          652.5,
+          551.2,
+          591.7,
+          611,
+          559.1,
+          650.1,
+          634.8,
+          581.9,
+          568.8
+        ],
+        "usage": {
+          "input_tokens": 10937,
+          "output_tokens": 2280,
+          "estimated_cost_usd": 0.0004594
+        }
+      },
+      "metrics": {
+        "most_angry": [
+          {
+            "id": "ticket-01",
+            "label": "Maple Labs",
+            "value": 0.98
+          },
+          {
+            "id": "ticket-05",
+            "label": "Orbit Health",
+            "value": 0.98
+          },
+          {
+            "id": "ticket-09",
+            "label": "Copper Works",
+            "value": 0.98
+          },
+          {
+            "id": "ticket-18",
+            "label": "Summit Retail",
+            "value": 0.98
+          },
+          {
+            "id": "ticket-03",
+            "label": "Northstar Legal",
+            "value": 0.94
+          }
+        ],
+        "happiest": [
+          {
+            "id": "ticket-02",
+            "label": "Harbor Studio",
+            "value": 0.99
+          },
+          {
+            "id": "ticket-06",
+            "label": "Juniper Books",
+            "value": 0.99
+          },
+          {
+            "id": "ticket-10",
+            "label": "Lumen Travel",
+            "value": 0.99
+          },
+          {
+            "id": "ticket-15",
+            "label": "Fable Games",
+            "value": 0.99
+          },
+          {
+            "id": "ticket-23",
+            "label": "Nova Museum",
+            "value": 0.98
+          }
+        ],
+        "highest_priority": [
+          {
+            "id": "ticket-01",
+            "label": "Maple Labs",
+            "value": 0.907
+          },
+          {
+            "id": "ticket-05",
+            "label": "Orbit Health",
+            "value": 0.881
+          },
+          {
+            "id": "ticket-13",
+            "label": "Birch Media",
+            "value": 0.871
+          },
+          {
+            "id": "ticket-03",
+            "label": "Northstar Legal",
+            "value": 0.862
+          },
+          {
+            "id": "ticket-09",
+            "label": "Copper Works",
+            "value": 0.839
+          }
+        ]
+      }
+    }
+  },
+  "summary": [
+    {
+      "experiment": "code-rag",
+      "steps": 1,
+      "calls": 8,
+      "judgments": 48,
+      "agreement_with_saved_typesafe_at_0_5": 0.9791666666666666,
+      "median_request_ms": 335.30390650000186,
+      "p95_request_ms_nearest_rank": 2132.0434189999987,
+      "serial_request_seconds": 6.507539406999996,
+      "estimated_gpu_cost_usd": 0.007138770729478997,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0,
+      "label_accuracy": 1.0
+    },
+    {
+      "experiment": "code-rag",
+      "steps": 4,
+      "calls": 8,
+      "judgments": 48,
+      "agreement_with_saved_typesafe_at_0_5": 0.9791666666666666,
+      "median_request_ms": 494.29707249999666,
+      "p95_request_ms_nearest_rank": 512.7402159999974,
+      "serial_request_seconds": 3.9716022430000066,
+      "estimated_gpu_cost_usd": 0.004356847660571008,
+      "recall_at_1": 1.0,
+      "recall_at_3": 1.0,
+      "mrr": 1.0,
+      "label_accuracy": 1.0
+    },
+    {
+      "experiment": "customer-voice",
+      "steps": 1,
+      "calls": 24,
+      "judgments": 144,
+      "agreement_with_saved_typesafe_at_0_5": 0.9583333333333334,
+      "median_request_ms": 328.95902749999095,
+      "p95_request_ms_nearest_rank": 366.9532380000078,
+      "serial_request_seconds": 8.238101629000028,
+      "estimated_gpu_cost_usd": 0.009037197487013027
+    },
+    {
+      "experiment": "customer-voice",
+      "steps": 4,
+      "calls": 24,
+      "judgments": 144,
+      "agreement_with_saved_typesafe_at_0_5": 0.9652777777777778,
+      "median_request_ms": 497.7456744999955,
+      "p95_request_ms_nearest_rank": 515.4844940000061,
+      "serial_request_seconds": 11.921716010999987,
+      "estimated_gpu_cost_usd": 0.013078122464066987
+    }
+  ],
+  "cost_accounting": {
+    "gpu_usd_per_second": 0.001097,
+    "rate_source": "https://modal.com/pricing",
+    "rate_checked": "2026-09-16",
+    "estimated_gpu_cost_remote_function_usd": 0.106166718303387,
+    "actual_invoice_cost_usd": null,
+    "prior_unmetered_attempts": [
+      {
+        "app_id": "ap-OoaCnCReRIswwHh5Ug428N",
+        "reason": "GPU evaluation completed but result deserialization failed on TorchVersion; cost unavailable, not included in this run estimate"
+      }
+    ],
+    "excluded": "CPU, RAM, storage, image build, container startup before function entry and teardown; account discounts/credits",
+    "timing_note": "Per-request time includes tokenization, generation, final readout and parsing; calls are serial. Client remote-call time includes scheduling. Saved TypeSafe experiment wall times used concurrent calls; compare per-call times, not batch wall time."
+  }
+}
